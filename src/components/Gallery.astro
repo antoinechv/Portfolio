@@ -1,0 +1,23 @@
+---
+const { images } = Astro.props;
+---
+
+<div class="flex flex-wrap justify-center gap-4 p-4 w-full">
+  {
+    images.map((image, index) => {
+      // Determine the aspect ratio based on the image orientation
+      const aspectRatio =
+        image.orientation === "portrait" ? "aspect-[3/4]" : "aspect-[4/3]";
+
+      return (
+        <div id={index} class={`relative w-1/4 ${aspectRatio}`}>
+          <img
+            src={image.src}
+            alt={`Image ${index}`}
+            class="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
+          />
+        </div>
+      );
+    })
+  }
+</div>

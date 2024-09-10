@@ -1,0 +1,118 @@
+---
+import { wpquery } from "../graphql/wordPressQuery";
+import Button from "./Button.astro";
+
+const { title, href, contentType = "photos" } = Astro.props;
+const itemsPerPage = 3;
+
+// Dynamic query using contentType
+const data = await wpquery({
+  query: `
+  {
+    ${contentType} {
+      nodes {
+        ${contentType} {
+          description
+          titre
+          tags {
+            nodes {
+              id
+              name
+            }
+          }
+          miniature {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+        }
+      }
+    }
+  }
+  `,
+});
+
+const totalItems = data[contentType].nodes.length;
+---
+
+<div
+  class="carousel flex items-center flex-col gap-5 max-w-4xl mx-auto mt-10 p-5 pb-10"
+  data-total-items={totalItems}
+  data-items-per-page={itemsPerPage}
+  data-content-type={contentType}
+>
+  <h2 class="text-5xl text-light-cream font-black font-truculenta">
+    {title}
+  </h2>
+  <div class="overflow-hidden">
+    <div class="carousel-inner flex transition-transform duration-500">
+      {
+        data[contentType].nodes.map((mediaNode, index) => (
+          <div class="w-1/3 p-2 flex-shrink-0" key={index}>
+            <div class="relative bg-white overflow-hidden">
+              <img
+                src={mediaNode[contentType].miniature.node.sourceUrl}
+                alt={mediaNode[contentType].miniature.node.altText}
+                class="w-full aspect-video object-cover"
+              />
+              <div class="absolute inset-0 bg-black opacity-70 flex items-center justify-center z-10">
+                <h2 class="text-white text-xl font-bold text-center">
+                  {mediaNode[contentType].titre}
+                </h2>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="flex gap-1">
+    <button class="carousel-prev bg-red text-white aspect-square w-8">
+      ◀
+    </button>
+    <button class="carousel-next bg-red text-white aspect-square w-8">
+      ▶
+    </button>
+  </div>
+
+  <Button color="cream" size="small" href={`${href}`}> Voir plus </Button>
+</div>
+
+<script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    const carousel = document.querySelector(".carousel");
+    const carouselInner = carousel.querySelector(".carousel-inner");
+    const prevButton = carousel.querySelector(".carousel-prev");
+    const nextButton = carousel.querySelector(".carousel-next");
+    const totalItems = parseInt(carousel.getAttribute("data-total-items"), 10);
+    const itemsPerPage = parseInt(
+      carousel.getAttribute("data-items-per-page"),
+      10
+    );
+    let currentIndex = 0;
+
+    const updateCarousel = () => {
+      const offset = (currentIndex * 100) / itemsPerPage;
+      carouselInner.style.transform = `translateX(-${offset}%)`;
+    };
+
+    nextButton.addEventListener("click", () => {
+      if (currentIndex < totalItems - itemsPerPage) {
+        currentIndex++;
+        updateCarousel();
+      }
+    });
+
+    prevButton.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCarousel();
+      }
+    });
+
+    // Initialize the carousel
+    updateCarousel();
+  });
+</script>

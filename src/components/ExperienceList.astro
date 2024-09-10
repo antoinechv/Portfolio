@@ -1,0 +1,33 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+
+const experiences = [
+  {
+    title: "Stage UX/UI et front developpeur",
+    description:
+      "Front : HTML CSS JS (création d’un site de bande-annonce de film dans un projet universitaire)",
+  },
+  {
+    title: "Photographe et vidéaste en Freelance",
+    description:
+      "Captation vidéo, Shooting photos, Création de contenu digital. J'ai pu travailler avec des restaurateurs, une agence de communication, et des particuliers. JUILLET 2023 - AUJOURD’HUI",
+  },
+  {
+    title: "Photographe et vidéaste Bénévole",
+    description:
+      "LH (Limoges handball), groupe BATUCADONF, RCV (Rugby Club Verneuillais)",
+  },
+];
+---
+
+<ul class="bg-light-cream p-8 w-full max-w-6xl">
+  {
+    experiences.map((exp, index) => (
+      <ExperienceItem
+        key={index}
+        title={exp.title}
+        description={exp.description}
+      />
+    ))
+  }
+</ul>

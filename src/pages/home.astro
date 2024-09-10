@@ -1,0 +1,16 @@
+---
+import AboutSection from "../components/AboutSection.astro";
+import HomeSection from "../components/HomeSection.astro";
+import Caroussel from "../components/Carroussel.astro";
+---
+
+<main>
+  <HomeSection />
+  <AboutSection />
+
+  <section class="bg-black p-5">
+    <Caroussel title="Mes projets" href="/projets" contentType="projets" />
+    <Caroussel title="Mes videos" href="/videos" contentType="videos" />
+    <Caroussel title="Mes photos" href="/pictures" contentType="photos" />
+  </section>
+</main>

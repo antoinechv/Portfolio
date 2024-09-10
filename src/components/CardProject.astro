@@ -1,0 +1,27 @@
+---
+const { image, title, description, tags, href, alt } = Astro.props;
+import Button from "./Button.astro";
+---
+
+<div
+  class="flex gap-8 flex-col justify-center items-center max-w-sm font-truculenta bg-black p-5"
+>
+  <img src={image} alt={alt} class="w-full h-48 object-cover" />
+  <div class="flex gap-3 flex-col w-full">
+    <h3 class="text-light-cream text-2xl font-semibold">{title}</h3>
+    <p class="text-light-cream text-base">{description}</p>
+    <div class="flex items-center gap-3">
+      {
+        tags.nodes.map((tag) => (
+          <span
+            id={tag.id}
+            class="text-white bg-red text-xs font-medium px-2.5 py-1"
+          >
+            {tag.name}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+  <Button color="cream" size="medium" href={href}> Voir plus </Button>
+</div>

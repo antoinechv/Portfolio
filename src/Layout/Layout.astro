@@ -1,0 +1,56 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+<style is:global>
+  :root {
+    --red: #d13f3f;
+    --red-light: rgb(237, 136, 136);
+
+    --black: #1b1b1b;
+    --black-light: #717171;
+    --light-cream: #fff8e8;
+
+    /* Default theme variables */
+    --background: var(--light-cream);
+    --text: var(--black);
+
+    --background-btn: var(--light-cream);
+    --text-btn: var(--black);
+
+    --background-nav-bar: var(--black);
+    --text-nav-bar: var(--light-cream);
+
+    --background-nav-link: var(--black);
+    --text-nav-link: var(--light-cream);
+    --background-nav-link-hover: var(--light-cream);
+    --text-nav-link-hover: var(--black);
+
+    --background-btn-primary: var(--red);
+    --text-btn-primary: var(--light-cream);
+    --background-btn-primary-hover: var(--red-light);
+    --text-btn-primary-hover: var(--light-cream);
+  }
+
+  .carousel:not(:last-of-type) {
+    border-bottom: 10px solid var(--red);
+  }
+</style>

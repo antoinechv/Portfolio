@@ -1,0 +1,32 @@
+---
+const { title, href, link } = Astro.props;
+---
+
+<style>
+  .button {
+    transition:
+      transform 0.2s,
+      color 0.2s,
+      background-color 0.2s;
+  }
+  .button:hover {
+    transform: scale(1.1);
+    color: var(--black);
+    background-color: var(--light-cream);
+  }
+  .button:active {
+    transform: scale(0.9);
+  }
+</style>
+
+<div
+  class="flex flex-col items-center justify-center gap-5 min-w-52 min-h-20 w-max p-8 bg-red font-truculenta"
+>
+  <h3 class="font-bold text-3xl text-light-cream">{title}</h3>
+  <a
+    class="button w-max px-6 py-2 bg-black text-white font-bold text-base cursor-pointer"
+    href={href}
+  >
+    {link}
+  </a>
+</div>
