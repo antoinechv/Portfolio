@@ -52,7 +52,6 @@ const data = await wpquery({
         {
           data.photos.nodes.map((photoNode) => (
             <ProjectCard
-            
               href={`/pictures/${photoNode.photos.id}`}
               image={photoNode.photos.miniature.node.sourceUrl}
               alt={photoNode.photos.miniature.node.altText}
