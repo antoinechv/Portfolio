@@ -12,6 +12,7 @@ const data = await wpquery({
   {
   projets {
     nodes {
+    slug
       projets {
         description
         titre
@@ -28,7 +29,8 @@ const data = await wpquery({
           }
         }
       }
-    }
+        id
+}
   }
 }
   `,
@@ -52,7 +54,7 @@ const data = await wpquery({
         {
           data.projets.nodes.map((projetNode) => (
             <ProjectCard
-              href={`/projects/${projetNode.projets.id}`}
+              href={`/projects/${projetNode.id}`}
               image={projetNode.projets.miniature.node.sourceUrl}
               alt={projetNode.projets.miniature.node.altText}
               title={projetNode.projets.titre}

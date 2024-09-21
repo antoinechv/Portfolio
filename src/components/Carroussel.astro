@@ -68,51 +68,14 @@ const totalItems = data[contentType].nodes.length;
     </div>
   </div>
 
-  <div class="flex gap-1">
+  <!-- <div class="flex gap-1">
     <button class="carousel-prev bg-red text-white aspect-square w-8">
       ◀
     </button>
     <button class="carousel-next bg-red text-white aspect-square w-8">
       ▶
     </button>
-  </div>
+  </div> -->
 
-  <Button color="cream" size="small" href={`${href}`}> Voir plus </Button>
+  <Button color="cream" size="small" href={`${href}`} text="Voir plus" />
 </div>
-
-<script type="module">
-  document.addEventListener("DOMContentLoaded", () => {
-    const carousel = document.querySelector(".carousel");
-    const carouselInner = carousel.querySelector(".carousel-inner");
-    const prevButton = carousel.querySelector(".carousel-prev");
-    const nextButton = carousel.querySelector(".carousel-next");
-    const totalItems = parseInt(carousel.getAttribute("data-total-items"), 10);
-    const itemsPerPage = parseInt(
-      carousel.getAttribute("data-items-per-page"),
-      10
-    );
-    let currentIndex = 0;
-
-    const updateCarousel = () => {
-      const offset = (currentIndex * 100) / itemsPerPage;
-      carouselInner.style.transform = `translateX(-${offset}%)`;
-    };
-
-    nextButton.addEventListener("click", () => {
-      if (currentIndex < totalItems - itemsPerPage) {
-        currentIndex++;
-        updateCarousel();
-      }
-    });
-
-    prevButton.addEventListener("click", () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateCarousel();
-      }
-    });
-
-    // Initialize the carousel
-    updateCarousel();
-  });
-</script>

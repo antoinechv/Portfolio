@@ -1,0 +1,92 @@
+---
+import { wpquery } from "../../graphql/wordPressQuery";
+import Layout from "../../Layout/Layout.astro";
+import NavBar from "../../components/NavBar.astro";
+import CardProject from "../../components/CardProject.astro";
+
+export async function getStaticPaths() {
+  const data = await wpquery({
+    query: `
+      {
+        videos {
+          nodes {
+            id
+          }
+        }
+      }
+    `,
+  });
+
+  const paths = data.videos.nodes.map((video) => ({
+    params: { id: video.id.toString() },
+  }));
+
+  return paths;
+}
+
+const { id } = Astro.params;
+
+const data = await wpquery({
+  query: `
+    {
+      video(id: "${id}") {
+        id
+        videos {
+        description
+        titre
+        tags {
+          nodes {
+            id
+            name
+          }
+        }
+        miniature {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+      }
+      }
+    }
+  `,
+});
+
+const video = data.video;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PORTFOLIO</title>
+    <Layout title="PORTFOLIO" />
+  </head>
+  <body>
+    <header>
+      <NavBar />
+    </header>
+
+    <main>
+      <div
+        class="flex justify-center items-center flex-col gap-10 flex-wrap p-5"
+      >
+        <h1 class="font-truculenta font-black text-black text-6xl">
+          Mes videos
+        </h1>
+        <div
+          class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"
+        >
+          <CardProject
+            image={video.videos.miniature.node.sourceUrl}
+            alt={video.videos.miniature.node.altText}
+            title={video.videos.titre}
+            description={video.videos.description}
+            tags={video.videos.tags}
+          />
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

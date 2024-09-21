@@ -1,18 +1,37 @@
 ---
-import ProjectCard from "../components/CardProject.astro";
-import { wpquery } from "../graphql/wordPressQuery";
-import NavBar from "../components/NavBar.astro";
-import Layout from "../Layout/Layout.astro";
-import "../index.css"; // Import your CSS here
+import { wpquery } from "../../graphql/wordPressQuery";
+import Layout from "../../Layout/Layout.astro";
+import NavBar from "../../components/NavBar.astro";
+import CardProject from "../../components/CardProject.astro";
 
-// Requête GraphQL pour obtenir les vidéos
+export async function getStaticPaths() {
+  const data = await wpquery({
+    query: `
+      {
+        photos {
+          nodes {
+            id
+          }
+        }
+      }
+    `,
+  });
+
+  const paths = data.photos.nodes.map((photo) => ({
+    params: { id: photo.id.toString() },
+  }));
+
+  return paths;
+}
+
+const { id } = Astro.params;
+
 const data = await wpquery({
   query: `
- {
-  photos {
-    nodes {
-      slug
-      photos {
+    {
+      photo(id: "${id}") {
+        id
+        photos {
         description
         titre
         tags {
@@ -28,12 +47,12 @@ const data = await wpquery({
           }
         }
       }
-      id
+      }
     }
-  }
-}
   `,
 });
+
+const photo = data.photo;
 ---
 
 <!doctype html>
@@ -59,18 +78,13 @@ const data = await wpquery({
         <div
           class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"
         >
-          {
-            data.photos.nodes.map((photoNode) => (
-              <ProjectCard
-                href={`/pictures/${photoNode.id}`}
-                image={photoNode.photos.miniature.node.sourceUrl}
-                alt={photoNode.photos.miniature.node.altText}
-                title={photoNode.photos.titre}
-                description={photoNode.photos.description}
-                tags={photoNode.photos.tags}
-              />
-            ))
-          }
+          <CardProject
+            image={photo.photos.miniature.node.sourceUrl}
+            alt={photo.photos.miniature.node.altText}
+            title={photo.photos.titre}
+            description={photo.photos.description}
+            tags={photo.photos.tags}
+          />
         </div>
       </div>
     </main>

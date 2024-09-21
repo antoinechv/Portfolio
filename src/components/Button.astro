@@ -1,6 +1,6 @@
 ---
 const props = Astro.props;
-const { color = "primary", size = "medium", children, href } = props;
+const { color = "primary", size = "medium", text, href } = props;
 
 const baseStyle =
   "w-max px-6 py-2 font-truculenta font-bold text-base cursor-pointer border-none";
@@ -19,5 +19,5 @@ const sizeStyles = {
 ---
 
 <a class={`${baseStyle} ${colorStyles[color]} ${sizeStyles[size]}`} href={href}>
-  {children}
+  {text}
 </a>

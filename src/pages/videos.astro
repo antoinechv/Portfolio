@@ -12,6 +12,7 @@ const data = await wpquery({
   {
   videos {
     nodes {
+    slug
       videos {
         description
         titre
@@ -28,7 +29,9 @@ const data = await wpquery({
           }
         }
       }
+      id
     }
+ 
   }
 }
   `,
@@ -52,7 +55,7 @@ const data = await wpquery({
         {
           data.videos.nodes.map((videoNode) => (
             <ProjectCard
-              href={`/videos/${videoNode.videos.id}`}
+              href={`/videos/${videoNode.id}`}
               image={videoNode.videos.miniature.node.sourceUrl}
               alt={videoNode.videos.miniature.node.altText}
               title={videoNode.videos.titre}
