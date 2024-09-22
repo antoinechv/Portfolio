@@ -1,17 +1,17 @@
 ---
-import AboutSection from "../components/AboutSection.astro";
-import HomeSection from "../components/HomeSection.astro";
+import AboutSection from "../Layout/AboutSection.astro";
+import HomeSection from "../components/HomeSection.jsx";
 import Caroussel from "../components/Carroussel.astro";
 ---
 
 <main>
-  <HomeSection />
+  <HomeSection client:load />
   <AboutSection />
 
   <section class="bg-black p-5">
     <Caroussel
       title="Mes derniers projets"
-      href="/projets"
+      href="/projects"
       contentType="projets"
     />
     <Caroussel

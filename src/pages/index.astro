@@ -1,14 +1,14 @@
 ---
-import NavBar from "../components/NavBar.astro";
+import NavBar from "../components/NavBar.jsx";
 import Home from "./home.astro";
-import Layout from "../Layout/Layout.astro";
+import Layout from "../Layout/Head.astro";
 ---
 
 <html>
   <Layout title="PORTFOLIO" />
   <body>
     <header>
-      <NavBar />
+      <NavBar client:load />
     </header>
     <Home />
   </body>

@@ -1,6 +1,6 @@
 ---
 const { image, title, description, tags, href, alt } = Astro.props;
-import Button from "./Button.astro";
+import Button from "./Button";
 ---
 
 <div
@@ -23,5 +23,7 @@ import Button from "./Button.astro";
       }
     </div>
   </div>
-  <Button color="cream" size="medium" href={href} text="Voir plus" />
+  <Button client:load color="cream" size="medium" href={href}>
+    Voir plus</Button
+  >
 </div>

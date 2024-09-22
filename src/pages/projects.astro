@@ -1,8 +1,8 @@
 ---
 import ProjectCard from "../components/CardProject.astro";
 import { wpquery } from "../graphql/wordPressQuery";
-import NavBar from "../components/NavBar.astro";
-import Layout from "../Layout/Layout.astro";
+import NavBar from "../components/NavBar";
+import Layout from "../Layout/Head.astro";
 import "../index.css"; // Import your CSS here
 
 // Requête GraphQL pour obtenir les vidéos
@@ -41,7 +41,7 @@ const data = await wpquery({
   <Layout title="PORTFOLIO" />
   <body>
     <header>
-      <NavBar />
+      <NavBar client:load />
     </header>
 
     <Layout title="PORTFOLIO" />

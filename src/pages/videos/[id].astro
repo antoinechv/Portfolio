@@ -1,7 +1,7 @@
 ---
 import { wpquery } from "../../graphql/wordPressQuery";
-import Layout from "../../Layout/Layout.astro";
-import NavBar from "../../components/NavBar.astro";
+import Layout from "../../Layout/Head.astro";
+import NavBar from "../../components/NavBar";
 import CardProject from "../../components/CardProject.astro";
 
 export async function getStaticPaths() {
@@ -65,7 +65,7 @@ const video = data.video;
   </head>
   <body>
     <header>
-      <NavBar />
+      <NavBar client:load />
     </header>
 
     <main>

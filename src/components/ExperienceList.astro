@@ -1,5 +1,5 @@
 ---
-import ExperienceItem from "./ExperienceItem.astro";
+import ExperienceItem from "./ExperienceItem.jsx";
 
 const experiences = [
   {
@@ -24,6 +24,7 @@ const experiences = [
   {
     experiences.map((exp, index) => (
       <ExperienceItem
+        client:load
         key={index}
         title={exp.title}
         description={exp.description}

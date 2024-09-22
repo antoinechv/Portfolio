@@ -1,0 +1,9 @@
+---
+import AboutContent from "../components/AboutContent.jsx";
+import ExperienceList from "../components/ExperienceList.astro";
+---
+
+<section class="flex flex-col items-center justify-center gap-5 bg-red p-8">
+  <AboutContent client:load />
+  <ExperienceList />
+</section>
