@@ -16,25 +16,22 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
 
-
       - name: Install dependencies
         run: npm install  # Installe les dépendances
 
       - name: Build the project
         run: npm run build  # Exécute la commande pour générer les fichiers de production (assume que tu utilises `npm run build` pour Astro)
 
-      - name: Extract dist files and clean up repository
+      - name: Clean up repository before moving dist files
+        run: |
+          # Supprime tous les fichiers du dépôt avant de déplacer le contenu de 'dist'
+          find . -not -path './.git*' -exec rm -rf {} \;  # Supprime tous les fichiers sauf .git et les répertoires nécessaires
+
+      - name: Extract dist files and move them to root
         run: |
           # Copie le contenu du dossier 'dist' à la racine
-          mkdir temp_dist
-          cp -r dist/* temp_dist/
-          
-          # Supprime tous les fichiers sauf le dossier temporaire 'temp_dist'
-          find . -not -path './temp_dist/*' -not -path '.' -not -path './.git*' -exec rm -rf {} \;
-          
-          # Déplace les fichiers extraits du dossier 'temp_dist' à la racine
-          mv temp_dist/* ./
-          rm -r temp_dist  # Supprime le dossier temporaire après avoir déplacé les fichiers
+          cp -r dist/* ./
+          rm -rf dist  # Supprime le dossier 'dist' après avoir déplacé ses fichiers
 
       - name: Checkout deploy branch
         run: git checkout deploy  # Crée ou bascule sur la branche 'deploy'
