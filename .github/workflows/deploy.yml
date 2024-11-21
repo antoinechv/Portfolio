@@ -1,48 +1,29 @@
-name: Deploy Astro Build to Hostinger
+name: Generate a build and push to another branch
 
 on:
   push:
     branches:
-      - production # Cette branche déclenche le déploiement, tu peux la modifier si nécessaire
+      - main # The branch name your are commit the new changes
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    name: Build and Push
     steps:
-      - name: Checkout repository
+      - name: git-checkout
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-
-
-      - name: Install dependencies
+      - name: Install all dependencies
         run: npm install
 
-      - name: Build Astro project
-        run: npm run build
+      - name: Build
+        run: npm run build # The build command of your project
 
-      - name: Checkout deploy branch
-        run: git fetch origin deploy && git checkout deploy
-
-      - name: Remove all files except dist
-        run: |
-          # Supprime tous les fichiers sauf le dossier dist
-          find . -mindepth 1 ! -regex '^./dist\(/.*\)?' -exec rm -rf {} +
-
-      - name: Move build files to deploy branch
-        run: |
-          # Déplace les fichiers de build dans la branche deploy
-          mv dist/* .
-
-      - name: Commit changes
-        run: |
-          git add .
-          git commit -m "Deploy Astro build"
-          git push origin deploy --force  # Pousse sur la branche deploy
-
-      - name: Clean dist folder
-        run: |
-          # Vide le dossier dist à la racine du projet
-          rm -rf dist/*
+      - name: Push
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: build deploy
+          FOLDER: build dist
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+          MESSAGE: "Build: ({sha}) {msg}" # The commit message
