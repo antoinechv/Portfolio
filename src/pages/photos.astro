@@ -1,37 +1,18 @@
 ---
-import { wpquery } from "../../graphql/wordPressQuery";
-import Layout from "../../Layout/Head.astro";
-import NavBar from "../../components/NavBar";
-import CardProject from "../../components/CardProject.astro";
+import ProjectCard from "../components/CardProject.astro";
+import { wpquery } from "../graphql/wordPressQuery";
+import NavBar from "../components/JSX/NavBar";
+import Layout from "../Layout/Head.astro";
+import "../index.css"; // Import your CSS here
 
-export async function getStaticPaths() {
-  const data = await wpquery({
-    query: `
-      {
-        projets {
-          nodes {
-            id
-          }
-        }
-      }
-    `,
-  });
-
-  const paths = data.projets.nodes.map((projet) => ({
-    params: { id: projet.id.toString() },
-  }));
-
-  return paths;
-}
-
-const { id } = Astro.params;
-
+// Requête GraphQL pour obtenir les vidéos
 const data = await wpquery({
   query: `
-    {
-      projet(id: "${id}") {
-        id
-        projets {
+ {
+  photos {
+    nodes {
+      slug
+      photos {
         description
         titre
         tags {
@@ -47,12 +28,12 @@ const data = await wpquery({
           }
         }
       }
-      }
+      id
     }
+  }
+}
   `,
 });
-
-const projet = data.projet;
 ---
 
 <!doctype html>
@@ -78,13 +59,18 @@ const projet = data.projet;
         <div
           class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"
         >
-          <CardProject
-            image={projet.projets.miniature.node.sourceUrl}
-            alt={projet.projets.miniature.node.altText}
-            title={projet.projets.titre}
-            description={projet.projets.description}
-            tags={projet.projets.tags}
-          />
+          {
+            data.photos.nodes.map((photoNode) => (
+              <ProjectCard
+                href={`/pictures/${photoNode.id}`}
+                image={photoNode.photos.miniature.node.sourceUrl}
+                alt={photoNode.photos.miniature.node.altText}
+                title={photoNode.photos.titre}
+                description={photoNode.photos.description}
+                tags={photoNode.photos.tags}
+              />
+            ))
+          }
         </div>
       </div>
     </main>

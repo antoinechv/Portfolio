@@ -4,14 +4,14 @@ import Button from "./Button";
 const Carrousel = ({ title, data, contentType, href }) => {
   const [itemsPerPage, setItemsPerPage] = useState(3); // Valeur par défaut
   const totalItems = data[contentType].nodes.length;
-  const [currentIndex, setCurrentIndex] = useState(0); // Index pour le carrousel
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const updateItemsPerPage = () => {
       setItemsPerPage(window.innerWidth < 768 ? 1 : 3);
     };
 
-    updateItemsPerPage(); // Appel initial
+    updateItemsPerPage(); 
 
     window.addEventListener("resize", updateItemsPerPage);
     return () => window.removeEventListener("resize", updateItemsPerPage);
