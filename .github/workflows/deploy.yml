@@ -1,52 +1,48 @@
-name: Deploy to GitHub Pages
+name: Deploy Astro Build to Hostinger
 
 on:
   push:
     branches:
-      - production  # Déclenche ce workflow quand tu pousses sur 'production'
+      - production # Cette branche déclenche le déploiement, tu peux la modifier si nécessaire
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest  # Utilise une machine virtuelle Ubuntu
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3  # Récupère ton dépôt
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
 
+
       - name: Install dependencies
-        run: npm install  # Installe les dépendances
+        run: npm install
 
-      - name: Build the project
-        run: npm run build  # Exécute la commande pour générer les fichiers de production (assume que tu utilises `npm run build` pour Astro)
-
-      - name: Clean up repository before moving dist files
-        run: |
-          # Supprime tous les fichiers du dépôt sauf .git et autres répertoires nécessaires
-          # La commande find est maintenant plus précise pour ne pas supprimer . et ..
-          find . -not -path './.git*' -not -path './dist*' -not -path './node_modules*' -not -path './public*' -not -path './src*' -not -path './.astro*' -exec rm -rf {} +;
+      - name: Build Astro project
+        run: npm run build
 
       - name: Checkout deploy branch
-        run: |
-          git fetch origin  # Récupère les informations des branches distantes
-          git checkout deploy || git checkout --orphan deploy  # Si la branche 'deploy' n'existe pas, elle sera créée
+        run: git fetch origin deploy && git checkout deploy
 
-      - name: Clean deploy branch (remove all files in deploy branch)
+      - name: Remove all files except dist
         run: |
-          # Supprime tous les fichiers dans la branche deploy
-          git rm -rf .  # Supprime tous les fichiers de la branche deploy (sauf .git)
-          git commit -m "Clean deploy branch"
+          # Supprime tous les fichiers sauf le dossier dist
+          find . -mindepth 1 ! -regex '^./dist\(/.*\)?' -exec rm -rf {} +
 
-      - name: Copy dist files to the root of deploy branch
+      - name: Move build files to deploy branch
         run: |
-          # Copie le contenu du dossier 'dist' à la racine
-          cp -r dist/* ./
-          rm -rf dist  # Supprime le dossier 'dist' après avoir déplacé ses fichiers
+          # Déplace les fichiers de build dans la branche deploy
+          mv dist/* .
 
-      - name: Commit and push changes to deploy branch
+      - name: Commit changes
         run: |
           git add .
-          git commit -m "Deploy build to deploy branch"
-          git push origin deploy --force  # Pousse les changements sur la branche 'deploy'
+          git commit -m "Deploy Astro build"
+          git push origin deploy --force  # Pousse sur la branche deploy
+
+      - name: Clean dist folder
+        run: |
+          # Vide le dossier dist à la racine du projet
+          rm -rf dist/*
