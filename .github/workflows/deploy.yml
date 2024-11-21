@@ -24,19 +24,27 @@ jobs:
 
       - name: Clean up repository before moving dist files
         run: |
-          # Supprime tous les fichiers du dépôt avant de déplacer le contenu de 'dist'
+          # Supprime tous les fichiers du dépôt sauf .git et autres répertoires nécessaires
           find . -not -path './.git*' -exec rm -rf {} \;  # Supprime tous les fichiers sauf .git et les répertoires nécessaires
 
-      - name: Extract dist files and move them to root
+      - name: Checkout deploy branch
+        run: |
+          git fetch origin  # Récupère les informations des branches distantes
+          git checkout deploy || git checkout --orphan deploy  # Si la branche 'deploy' n'existe pas, elle sera créée
+
+      - name: Clean deploy branch (remove all files in deploy branch)
+        run: |
+          # Supprime tous les fichiers dans la branche deploy
+          git rm -rf .  # Supprime tous les fichiers de la branche deploy (sauf .git)
+          git commit -m "Clean deploy branch"
+
+      - name: Copy dist files to the root of deploy branch
         run: |
           # Copie le contenu du dossier 'dist' à la racine
           cp -r dist/* ./
           rm -rf dist  # Supprime le dossier 'dist' après avoir déplacé ses fichiers
 
-      - name: Checkout deploy branch
-        run: git checkout deploy  # Crée ou bascule sur la branche 'deploy'
-
-      - name: Commit and push changes
+      - name: Commit and push changes to deploy branch
         run: |
           git add .
           git commit -m "Deploy build to deploy branch"
