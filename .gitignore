@@ -58,3 +58,7 @@ vendor/bundle/
 # Autres fichiers spécifiques
 *.bak
 *.backup
+
+# .gitignore (sur la branche deploy uniquement)
+# Ignore dist dans main mais pas dans deploy
+!dist
