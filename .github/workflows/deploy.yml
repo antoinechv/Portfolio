@@ -25,7 +25,8 @@ jobs:
       - name: Clean up repository before moving dist files
         run: |
           # Supprime tous les fichiers du dépôt sauf .git et autres répertoires nécessaires
-          find . -not -path './.git*' -exec rm -rf {} \;  # Supprime tous les fichiers sauf .git et les répertoires nécessaires
+          # La commande find est maintenant plus précise pour ne pas supprimer . et ..
+          find . -not -path './.git*' -not -path './dist*' -not -path './node_modules*' -not -path './public*' -not -path './src*' -not -path './.astro*' -exec rm -rf {} +;
 
       - name: Checkout deploy branch
         run: |
