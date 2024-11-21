@@ -2,7 +2,13 @@
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
+    fontFamily: {
+      truculenta: ['"Truculenta"'],
+    },
     extend: {
+      gridTemplateColumns: {
+        '13': 'repeat(13, minmax(0, 1fr))',
+      },
       colors: {
         red: "var(--red)",
         "red-light": "var(--red-light)",
@@ -10,6 +16,7 @@ export default {
         black: "var(--black)",
         "black-light": "var(--black-light)",
         "light-cream": "var(--light-cream)",
+        "grey": "var(--grey)",
 
         // Default theme variables
         background: "var(--background)",
@@ -30,9 +37,7 @@ export default {
         "background-btn-primary-hover": "var(--background-btn-primary-hover)",
         "text-btn-primary-hover": "var(--text-btn-primary-hover)",
       },
-      fontFamily: {
-        truculenta: ["Truculenta", "sans-serif"], // Ajout de la police "Truculenta"
-      },
+
     },
   },
   plugins: [],

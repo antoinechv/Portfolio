@@ -56,24 +56,20 @@ const projet = data.projet;
 ---
 
 <!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PORTFOLIO</title>
-    <Layout title="PORTFOLIO" />
-  </head>
-  <body>
-    <header>
-      <NavBar client:load />
-    </header>
+<html>
+<Layout title="PORTFOLIO" />
+<body>
+<header>
+  <NavBar client:load />
+</header>
+
 
     <main>
       <div
-        class="flex justify-center items-center flex-col gap-10 flex-wrap p-5"
+        class=" py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
       >
         <h1 class="font-truculenta font-black text-black text-6xl">
-          Mes photos
+          {projet.projets.titre}
         </h1>
         <div
           class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"

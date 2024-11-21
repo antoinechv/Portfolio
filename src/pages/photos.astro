@@ -51,7 +51,7 @@ const data = await wpquery({
 
     <main>
       <div
-        class="flex justify-center items-center flex-col gap-10 flex-wrap p-5"
+        class="py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
       >
         <h1 class="font-truculenta font-black text-black text-6xl">
           Mes photos
@@ -62,7 +62,7 @@ const data = await wpquery({
           {
             data.photos.nodes.map((photoNode) => (
               <ProjectCard
-                href={`/pictures/${photoNode.id}`}
+                href={`/photos/${photoNode.id}`}
                 image={photoNode.photos.miniature.node.sourceUrl}
                 alt={photoNode.photos.miniature.node.altText}
                 title={photoNode.photos.titre}

@@ -3,6 +3,7 @@ import { wpquery } from "../../graphql/wordPressQuery";
 import Layout from "../../Layout/Head.astro";
 import NavBar from "../../components/JSX/NavBar";
 import CardProject from "../../components/CardProject.astro";
+import Home from "../home.astro";
 
 export async function getStaticPaths() {
   const data = await wpquery({
@@ -28,65 +29,159 @@ const { id } = Astro.params;
 
 const data = await wpquery({
   query: `
-    {
-      photo(id: "${id}") {
-        id
-        photos {
-        description
-        titre
-        tags {
-          nodes {
-            id
-            name
-          }
+   {
+  photo(id: "${id}") {
+    id
+    photos {
+      description
+      titre
+      tags {
+        nodes {
+          id
+          name
         }
-        miniature {
+      }
+      miniature {
+        node {
+          altText
+          sourceUrl
+        }
+      }
+      gallerie {
+        photo {
           node {
             altText
             sourceUrl
           }
         }
-      }
+        photo_2 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        photo_3 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        photo_4 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        photo_5 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        photo_6 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        
+       photo_7 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        
+        photo_8 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        
+        photo_9 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        photo_10 {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+      
       }
     }
+  }
+}
+
   `,
 });
 
-const photo = data.photo;
+
+console.log("Data fetched from GraphQL:", data);
+
+const gallerie = data.photo?.photos?.gallerie || {};
+const photo = data.photo?.photos;
+
+
+let galleryPhotos = Object.values({
+  photo: gallerie.photo?.node,
+  photo_2: gallerie.photo_2?.node,
+  photo_3: gallerie.photo_3?.node,
+  photo_4: gallerie.photo_4?.node,
+  photo_5: gallerie.photo_5?.node,
+  photo_6: gallerie.photo_6?.node,
+  photo_7: gallerie.photo_7?.node,
+  photo_8: gallerie.photo_8?.node,
+  photo_9: gallerie.photo_9?.node,
+  photo_10: gallerie.photo_10?.node,
+}).filter((photo) => photo?.sourceUrl);
+
+
 ---
 
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PORTFOLIO</title>
-    <Layout title="PORTFOLIO" />
-  </head>
-  <body>
-    <header>
-      <NavBar client:load />
-    </header>
+<html>
+<Layout title="PORTFOLIO" />
+<body>
+<header>
+  <NavBar client:load />
+</header>
 
-    <main>
-      <div
-        class="flex justify-center items-center flex-col gap-10 flex-wrap p-5"
-      >
-        <h1 class="font-truculenta font-black text-black text-6xl">
-          Mes photos
-        </h1>
-        <div
-          class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"
-        >
-          <CardProject
-            image={photo.photos.miniature.node.sourceUrl}
-            alt={photo.photos.miniature.node.altText}
-            title={photo.photos.titre}
-            description={photo.photos.description}
-            tags={photo.photos.tags}
-          />
+<main>
+  <div
+      class=" py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
+  >
+    <h1 class="font-truculenta font-black text-black text-6xl">
+      Galerie : {photo.titre}
+    </h1>
+    {galleryPhotos.length > 0 ? (
+        <div class="wrapper mx-auto p-5 max-w-screen-lg">
+          <div class="gallery grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr]">
+            {galleryPhotos.map((galleryPhoto, index) => (
+                <div
+                    key={index}
+                    class="gallery-item"
+                >
+                  <img
+                      src={galleryPhoto.sourceUrl}
+                      alt={galleryPhoto.altText}
+                      class={`w-full h-auto object-cover rounded-lg shadow-md ${
+                          galleryPhoto.sourceUrl.includes('-vertical') ? 'aspect-vertical' : 'aspect-horizontal'
+                      }`}
+                  />
+                </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
-  </body>
+
+
+    ) : (
+        <p>Aucune photo disponible dans la galerie.</p>
+    )}
+  </div>
+</main>
+</body>
 </html>

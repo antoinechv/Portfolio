@@ -1,7 +1,7 @@
 ---
 import ProjectCard from "../components/CardProject.astro";
 import { wpquery } from "../graphql/wordPressQuery";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/JSX/NavBar";
 import Layout from "../Layout/Head.astro";
 import "../index.css"; // Import your CSS here
 
@@ -46,24 +46,28 @@ const data = await wpquery({
     </header>
 
     <Layout title="PORTFOLIO" />
-    <div class="flex justify-center items-center flex-col gap-10 flex-wrap p-5">
+    <div class=" py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
       <h1 class="font-truculenta font-black text-black text-6xl">
         Mes videos
       </h1><div
         class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"
       >
-        {
-          data.videos.nodes.map((videoNode) => (
-            <ProjectCard
-              href={`/videos/${videoNode.id}`}
-              image={videoNode.videos.miniature.node.sourceUrl}
-              alt={videoNode.videos.miniature.node.altText}
-              title={videoNode.videos.titre}
-              description={videoNode.videos.description}
-              tags={videoNode.videos.tags}
-            />
-          ))
-        }
+      {data.videos.nodes
+          .filter(
+              (videoNode) =>
+                  videoNode.videos?.miniature?.node?.sourceUrl && videoNode.videos?.titre
+          )
+          .map((videoNode) => (
+              <ProjectCard
+                  key={videoNode.id}
+                  href={`/videos/${videoNode.id}`}
+                  image={videoNode.videos.miniature.node.sourceUrl}
+                  alt={videoNode.videos.miniature.node.altText}
+                  title={videoNode.videos.titre}
+                  description={videoNode.videos.description}
+                  tags={videoNode.videos.tags}
+              />
+          ))}
       </div>
     </div>
   </body>

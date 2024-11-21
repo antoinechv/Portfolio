@@ -1,19 +1,10 @@
 ---
-import { motion } from "framer-motion";
-import Button from "./Button.astro"; // Assurez-vous que Button est un composant Astro ou un composant supporté.
+import Button from "./JSX/Button.jsx";
 import Accordeon from "./Accordeon.astro";
 
-const galleryData = [
-    { title: "Galerie 1", image: "/assets/payasage.jpg", redirectLink: "https://example.com/page1" },
-    { title: "Galerie 2", image: "/assets/payasage.jpg", redirectLink: "https://example.com/page1" },
-    { title: "Galerie 3", image: "/assets/payasage.jpg", redirectLink: "https://example.com/page1" },
-    { title: "Galerie 4", image: "/assets/payasage.jpg", redirectLink: "https://example.com/page1" },
-    { title: "Galerie 5", image: "/assets/payasage.jpg", redirectLink: "https://example.com/page1" },
-    { title: "Galerie 6", image: "/assets/payasage.jpg", redirectLink: "https://example.com/page1" },
-];
 ---
 
-    <motion.section
+    <section
         class="min-h-screen md:h-screen bg-light-cream px-4 py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 grid gap-4 grid-cols-1 md:grid-cols-13 md:grid-rows-6"
     >
         <!-- Portfolio Button - Appears at the top on mobile -->
@@ -36,10 +27,22 @@ const galleryData = [
                 class="object-cover"
             />
         </div>
-
+        <div class="bg-red col-span-1 md:col-span-5 row-span-1 md:row-span-5 p-4 rounded-lg space-y-4 order-4 scroll-auto overflow-scroll flex flex-col gap-3">
         <!-- Tour du Limousin Section -->
-        <Accordeon />
+        <Accordeon
+                title="photos"
+                contentType="photos"
+        />
+            <Accordeon
+                    title="videos"
+                    contentType="videos"
+            />
+            <Accordeon
+                    title="projets"
+                    contentType="projets"
+            />
 
+            </div>
         <!-- About Section -->
         <div class="bg-red col-span-1 md:col-span-5 row-span-1 md:row-span-3 p-4 flex flex-col gap-5 justify-center items-start rounded-lg order-5">
             <h3 class="text-light-cream font-bold text-base sm:text-4xl mb-2 font-truculenta">A propos</h3>
@@ -58,4 +61,4 @@ const galleryData = [
                 Mon CV
             </Button>
         </div>
-    </motion.section>
+    </section>

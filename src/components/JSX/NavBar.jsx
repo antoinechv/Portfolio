@@ -5,8 +5,8 @@ import Button from "./Button.jsx";
 
 const navLinks = [
   { name: "Accueil", href: "/" },
-  { name: "Mes projets", href: "/projects/" },
-  { name: "Mes photos", href: "/pictures/" },
+  { name: "Mes projets", href: "/projets/" },
+  { name: "Mes photos", href: "/photos/" },
   { name: "Mes vidéos", href: "/videos/" },
 ];
 

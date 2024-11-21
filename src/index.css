@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import url('https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap');
 
   :root {
     --red: #d13f3f;
@@ -10,7 +10,8 @@
     --black: #1b1b1b;
     --black-light: #717171;
     --light-cream: #fff8e8;
-  
+    --grey:#C5B8A4;
+
     /* Default theme variables */
     --background: var(--light-cream);
     --text: var(--black);
@@ -33,8 +34,18 @@
   }
 
 
-  
+
 
 .carousel:not(:last-of-type) {
   border-bottom: 10px solid var(--red); 
 }
+@layer utilities {
+  .aspect-vertical {
+    @apply aspect-[3/4];
+  }
+
+  .aspect-horizontal {
+    @apply aspect-[4/3];
+  }
+}
+

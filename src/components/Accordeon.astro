@@ -1,0 +1,47 @@
+---
+import AccordeonComponent from './JSX/AccordeonComponent.jsx';
+
+import { wpquery } from "../graphql/wordPressQuery";
+
+const { title, contentType = "photos" } = Astro.props;
+
+
+
+
+const data = await wpquery({
+    query: `
+    {
+        ${contentType} {
+            nodes {
+             id
+               ${contentType} {
+                    description
+                    titre
+                    tags {
+                        nodes {
+                            id
+                            name
+                        }
+                    }
+                    miniature {
+                        node {
+                            altText
+                            sourceUrl
+                        }
+                    }
+                }
+            }
+        }
+    }
+    `,
+});
+---
+
+<AccordeonComponent
+        client:load
+        data={data}
+        contentType={contentType}
+        title={title}
+/>
+
+

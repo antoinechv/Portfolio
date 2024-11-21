@@ -4,14 +4,14 @@ import Button from "./Button";
 const Carrousel = ({ title, data, contentType, href }) => {
   const [itemsPerPage, setItemsPerPage] = useState(3); // Valeur par défaut
   const totalItems = data[contentType].nodes.length;
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0); // Index pour le carrousel
 
   useEffect(() => {
     const updateItemsPerPage = () => {
       setItemsPerPage(window.innerWidth < 768 ? 1 : 3);
     };
 
-    updateItemsPerPage(); 
+    updateItemsPerPage(); // Appel initial
 
     window.addEventListener("resize", updateItemsPerPage);
     return () => window.removeEventListener("resize", updateItemsPerPage);
@@ -45,22 +45,24 @@ const Carrousel = ({ title, data, contentType, href }) => {
             transform: `translateX(-${(currentIndex * 100) / itemsPerPage}%)`, // Ajuster pour 1 ou 3 cartes
           }}
         >
-          {data[contentType].nodes.map((mediaNode, index) => (
-            <div className={`w-full sm:w-1/3 p-2 flex-shrink-0`} key={index}>
-              <div className="relative bg-white overflow-hidden">
-                <img
-                  src={mediaNode[contentType].miniature.node.sourceUrl}
-                  alt={mediaNode[contentType].miniature.node.altText}
-                  className="w-full aspect-video object-cover"
-                />
-                <div className="absolute inset-0 bg-black opacity-70 flex items-center justify-center z-10">
-                  <h2 className="text-white text-xl font-bold text-center">
-                    {mediaNode[contentType].titre}
-                  </h2>
-                </div>
-              </div>
-            </div>
-          ))}
+          {data[contentType].nodes
+              .filter(mediaNode => mediaNode[contentType]?.miniature?.node)
+              .map((mediaNode, index) => (
+                  <div className={`w-full sm:w-1/3 p-2 flex-shrink-0`} key={index}>
+                    <div className="relative bg-white overflow-hidden">
+                      <img
+                          src={mediaNode[contentType].miniature.node.sourceUrl}
+                          alt={mediaNode[contentType].miniature.node.altText}
+                          className="w-full aspect-video object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black opacity-70 flex items-center justify-center z-10">
+                        <h2 className="text-white text-xl font-bold text-center">
+                          {mediaNode[contentType].titre}
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+              ))}
         </div>
       </div>
 

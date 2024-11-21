@@ -1,7 +1,7 @@
 ---
 import { wpquery } from "../../graphql/wordPressQuery";
 import Layout from "../../Layout/Head.astro";
-import NavBar from "../../components/NavBar";
+import NavBar from "../../components/JSX/NavBar";
 import CardProject from "../../components/CardProject.astro";
 
 export async function getStaticPaths() {
@@ -55,22 +55,17 @@ const data = await wpquery({
 const video = data.video;
 ---
 
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PORTFOLIO</title>
-    <Layout title="PORTFOLIO" />
-  </head>
-  <body>
-    <header>
-      <NavBar client:load />
-    </header>
+<html>
+<Layout title="PORTFOLIO" />
+<body>
+<header>
+  <NavBar client:load />
+</header>
+
 
     <main>
       <div
-        class="flex justify-center items-center flex-col gap-10 flex-wrap p-5"
+        class="  py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
       >
         <h1 class="font-truculenta font-black text-black text-6xl">
           Mes videos
