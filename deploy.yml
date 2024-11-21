@@ -1,0 +1,47 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - production  # Déclenche ce workflow quand tu pousses sur 'production'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Utilise une machine virtuelle Ubuntu
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3  # Récupère ton dépôt
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Définit la version de Node.js
+
+      - name: Install dependencies
+        run: npm install  # Installe les dépendances
+
+      - name: Build the project
+        run: npm run build  # Exécute la commande pour générer les fichiers de production (assume que tu utilises `npm run build` pour Astro)
+
+      - name: Extract dist files and clean up repository
+        run: |
+          # Copie le contenu du dossier 'dist' à la racine
+          mkdir temp_dist
+          cp -r dist/* temp_dist/
+          
+          # Supprime tous les fichiers sauf le dossier temporaire 'temp_dist'
+          find . -not -path './temp_dist/*' -not -path '.' -not -path './.git*' -exec rm -rf {} \;
+          
+          # Déplace les fichiers extraits du dossier 'temp_dist' à la racine
+          mv temp_dist/* ./
+          rm -r temp_dist  # Supprime le dossier temporaire après avoir déplacé les fichiers
+
+      - name: Checkout deploy branch
+        run: git checkout deploy  # Crée ou bascule sur la branche 'deploy'
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "Deploy build to deploy branch"
+          git push origin deploy --force  # Pousse les changements sur la branche 'deploy'
