@@ -49,35 +49,38 @@ const Carrousel = ({ title, data, contentType, href }) => {
               .filter(mediaNode => mediaNode[contentType]?.miniature?.node)
               .map((mediaNode, index) => (
                   <div className={`w-full sm:w-1/3 p-2 flex-shrink-0`} key={index}>
-                    <div className="relative bg-white overflow-hidden">
-                      <img
-                          src={mediaNode[contentType].miniature.node.sourceUrl}
-                          alt={mediaNode[contentType].miniature.node.altText}
-                          className="w-full aspect-video object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black opacity-70 flex items-center justify-center z-10">
-                        <h2 className="text-white text-xl font-bold text-center">
-                          {mediaNode[contentType].titre}
-                        </h2>
-                      </div>
+                    <div className="relative bg-white overflow-hidden group">
+                      <a href={`/${contentType}/${mediaNode.id}`} className="block">
+                        <img
+                            src={mediaNode[contentType].miniature.node.sourceUrl}
+                            alt={mediaNode[contentType].miniature.node.altText}
+                            className="w-full aspect-video object-cover transform transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black opacity-70 flex items-center justify-center z-10">
+                          <h2 className="text-white text-xl font-bold text-center">
+                            {mediaNode[contentType].titre}
+                          </h2>
+                        </div>
+                      </a>
                     </div>
                   </div>
+
               ))}
         </div>
       </div>
 
       <div className="flex gap-1">
         <button
-          className="carousel-prev bg-red text-white aspect-square w-8"
-          onClick={handlePrev}
-          disabled={currentIndex === 0} // Désactiver si au début
+            className="carousel-prev bg-red text-white aspect-square w-8 rounded-lg"
+            onClick={handlePrev}
+            disabled={currentIndex === 0} // Désactiver si au début
         >
           ◀
         </button>
         <button
-          className="carousel-next bg-red text-white aspect-square w-8"
-          onClick={handleNext}
-          disabled={currentIndex >= totalItems - itemsPerPage} // Désactiver si à la fin
+            className="carousel-next bg-red text-white aspect-square w-8 rounded-lg"
+            onClick={handleNext}
+            disabled={currentIndex >= totalItems - itemsPerPage} // Désactiver si à la fin
         >
           ▶
         </button>

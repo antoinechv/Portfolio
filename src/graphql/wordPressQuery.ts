@@ -8,7 +8,7 @@ export async function wpquery({ query, variables = {} }: gqlParams) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Cache-Control": "no-cache", // Ajoute ce header pour éviter le cache
+            "Cache-Control": "no-cache",
         },
         body: JSON.stringify({
             query,

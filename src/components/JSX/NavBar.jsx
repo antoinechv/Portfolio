@@ -18,7 +18,7 @@ const Navbar = () => {
   };
 
   return (
-      <nav className="flex items-center  md:justify-center bg-black justify-between px-5 py-2 gap-5 md:fixed  md:top-0  md:left-1/2  md:transform  md:-translate-x-1/2 rounded-b-2xl ">
+      <nav className="flex items-center  md:justify-center bg-black justify-between px-5 py-2 gap-5 md:fixed  md:top-0  md:left-1/2  md:transform  md:-translate-x-1/2 rounded-b-2xl z-50 ">
 
           <div className="flex items-center">
             <div className="md:hidden relative">

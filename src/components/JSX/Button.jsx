@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 
-const Button = ({ color = "red", size = "medium", children, href }) => {
+const Button = ({ color = "red", size = "medium", children, href,...rest }) => {
   const baseStyle =
-    "w-max px-6 py-2 font-truculenta font-bold text-base cursor-pointer border-none";
+    "w-max px-6 py-2 font-truculenta font-bold text-base cursor-pointer border-none rounded-lg";
 
   const colorStyles = {
     red: "bg-red text-white",
@@ -23,6 +23,7 @@ const Button = ({ color = "red", size = "medium", children, href }) => {
       whileHover={{ scale: 1.1 }} // Animation à l'hover (agrandissement)
       whileTap={{ scale: 0.95 }} // Animation au clic (réduction)
       transition={{ type: "spring", stiffness: 300 }} // Transition plus dynamique
+      {...rest}
     >
       {children}
     </motion.a>
