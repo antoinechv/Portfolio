@@ -9,13 +9,13 @@ const ListItem = ({ title, description }) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true); // L'élément entre dans la vue
+          setIsVisible(true);
         } else {
-          setIsVisible(false); // L'élément sort de la vue
+          setIsVisible(false);
         }
       },
       {
-        threshold: 0.1, // Déclenchement lorsque 10% de l'élément est visible
+        threshold: 0.1,
       }
     );
 
@@ -24,7 +24,7 @@ const ListItem = ({ title, description }) => {
     }
 
     return () => {
-      observer.disconnect(); // Nettoyage à la suppression du composant
+      observer.disconnect();
     };
   }, []);
 

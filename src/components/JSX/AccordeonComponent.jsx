@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const AccordeonComponent = ({ title,data, contentType }) => {
-    const [hoveredIndex, setHoveredIndex] = useState(null); // Initialisation de l'état
+    const [hoveredIndex, setHoveredIndex] = useState(null);
 
     return (
 

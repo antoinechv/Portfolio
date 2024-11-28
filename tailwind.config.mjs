@@ -1,5 +1,6 @@
+
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     fontFamily: {
@@ -13,12 +14,13 @@ export default {
         red: "var(--red)",
         "red-light": "var(--red-light)",
 
-        black: "var(--black)",
         "black-light": "var(--black-light)",
+
+        "black-50": "var(--black-50)",
         "light-cream": "var(--light-cream)",
         "grey": "var(--grey)",
 
-        // Default theme variables
+
         background: "var(--background)",
         text: "var(--text)",
 
@@ -40,5 +42,7 @@ export default {
 
     },
   },
-  plugins: [],
+  plugins: [
+
+  ],
 };

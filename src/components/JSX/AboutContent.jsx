@@ -54,7 +54,7 @@ const AboutSection = () => {
         <motion.p
           className="font-medium text-lg text-light-cream"
           initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} // Apparaît et disparaît
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           Lorem ipsum dolor sit amet consectetur. Pretium auctor proin egestas

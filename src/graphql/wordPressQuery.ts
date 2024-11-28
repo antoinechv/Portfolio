@@ -22,6 +22,6 @@ export async function wpquery({ query, variables = {} }: gqlParams) {
     }
 
     const { data } = await res.json();
-    console.log('Fetched data:', data); // Log des données
+    console.log('Fetched data:', data);
     return data;
 }

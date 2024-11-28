@@ -1,61 +1,66 @@
 ---
 import Button from "./JSX/Button.jsx";
 import Accordeon from "./Accordeon.astro";
-
 ---
+<section
+        class="min-h-screen bg-light-cream px-4 py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 grid gap-4 grid-cols-1 md:grid-cols-8 md:grid-rows-6 lg:grid-cols-13 lg:grid-rows-6"
+>
+    <!-- Titre -->
+    <div class="bg-red col-span-1 md:col-span-8 lg:col-span-5 row-span-1 flex items-center justify-center p-4 rounded-lg order-1">
+        <button class="text-light-cream font-bold text-xl sm:text-6xl font-truculenta">PORTFOLIO</button>
+    </div>
 
-    <section
-        class="min-h-screen md:h-screen bg-light-cream px-4 py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 grid gap-4 grid-cols-1 md:grid-cols-13 md:grid-rows-6"
-    >
-        <!-- Portfolio Button - Appears at the top on mobile -->
-        <div class="bg-red col-span-1 md:col-span-5 row-span-1 flex items-center justify-center p-4 rounded-lg order-1 md:order-none">
-            <button class="text-light-cream font-bold text-xl sm:text-6xl font-truculenta">PORTFOLIO</button>
-        </div>
+    <!-- Citation -->
+    <div class="bg-red col-span-1 md:col-span-4 lg:col-span-5 row-span-1 md:row-span-2 lg:row-span-3 flex items-center justify-center p-4 sm:p-6 lg:p-8 rounded-lg order-2">
+        <p class="text-light-cream font-bold text-base sm:text-xl md:text-3xl lg:text-4xl font-truculenta">
+            Chaque réussite commence par la volonté d’essayer.
+        </p>
+    </div>
 
-        <!-- Quote Section -->
-        <div class="bg-red col-span-1 md:col-span-5 row-span-1 md:row-span-3 flex items-center justify-center p-4 sm:p-6 md:p-8 rounded-lg order-2">
-            <p class="text-light-cream font-bold text-base sm:text-xl md:text-4xl font-truculenta">
-                Chaque réussite commence par la volonté d’essayer.
-            </p>
-        </div>
-
-        <!-- Image Section -->
-        <div class="col-span-1 md:col-span-3 row-span-1 md:row-span-4 w-full overflow-clip order-3 rounded-lg">
-            <img
+    <!-- Image -->
+    <div class="col-span-1 md:col-span-4 lg:col-span-3 row-span-1 md:row-span-2 lg:row-span-3 w-full overflow-clip order-3 rounded-lg">
+        <img
                 src="/assets/bdx-22.jpg"
                 alt="Portrait"
-                class="object-cover"
-            />
-        </div>
-        <div class="bg-red col-span-1 md:col-span-5 row-span-1 md:row-span-5 p-4 rounded-lg space-y-4 order-4 scroll-auto overflow-scroll flex flex-col gap-3">
-        <!-- Tour du Limousin Section -->
-        <Accordeon
-                title="photos"
-                contentType="photos"
+                class="object-cover h-full"
         />
-            <Accordeon
-                    title="videos"
-                    contentType="videos"
-            />
-            <Accordeon
-                    title="projets"
-                    contentType="projets"
-            />
+    </div>
 
-            </div>
-        <!-- About Section -->
-        <div class="bg-red col-span-1 md:col-span-5 row-span-1 md:row-span-3 p-4 flex flex-col gap-5 justify-center items-start rounded-lg order-5">
-            <h3 class="text-light-cream font-bold text-base sm:text-4xl mb-2 font-truculenta">A propos</h3>
-            <p class="text-light-cream sm-text-base font-truculenta text-sm">
-                Passionné par le cinéma, la photographie et la vidéo, je combine ma créativité visuelle avec mes compétences en développement front-end. Actuellement, je travaille dans ces deux domaines, créant des expériences numériques et visuelles uniques.
-            </p>
-        </div>
+    <!-- Accordeons -->
+    <div class="bg-red col-span-1 md:col-span-8 lg:col-span-5 row-span-1 md:row-span-4 lg:row-span-5 p-4 rounded-lg space-y-4 order-4 scroll-auto overflow-scroll flex flex-col gap-3">
+        <Accordeon title="projets" contentType="projets" />
+        <Accordeon title="videos" contentType="videos" />
+        <Accordeon title="photos" contentType="photos" />
+    </div>
 
-        <!-- Contact Section -->
-        <div class="bg-red col-span-1 md:col-span-3 row-span-1 md:row-span-2 flex flex-col items-center gap-4 justify-center p-4 rounded-lg order-6">
-            <p class="text-light-cream font-bold text-base sm:text-2xl font-truculenta">travaillons-ensemble ?</p>
-            <Button size="medium" color="black" href="/assets/CV-antoine-CHAUVEAU.pdf"  target="_blank">
-                Mon CV
-            </Button>
-        </div>
-    </section>
+    <!-- A propos -->
+    <div class="bg-red col-span-1 md:col-span-8 lg:col-span-5 row-span-1 md:row-span-2 lg:row-span-2 p-4 flex flex-col gap-5 items-start rounded-lg order-5">
+        <h3 class="text-light-cream font-bold text-base sm:text-4xl mb-2 font-truculenta">A propos</h3>
+        <p class="text-light-cream md:text-lg text-xs font-truculenta">
+            Passionné par le cinéma, la photographie et la vidéo, je combine ma créativité visuelle avec mes compétences
+            en développement front-end. Actuellement, je travaille dans ces deux domaines, créant des expériences
+            numériques et visuelles uniques.
+        </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="bg-red col-span-1 md:col-span-8 lg:col-span-3 row-span-1 md:row-span-2 lg:row-span-2 flex flex-col items-center gap-4 justify-center p-4 rounded-lg order-6">
+        <p class="text-light-cream font-bold text-base sm:text-2xl font-truculenta">travaillons-ensemble ?</p>
+        <Button size="medium" color="black" href="/assets/CV-antoine-CHAUVEAU.pdf" target="_blank">
+            Mon CV
+        </Button>
+    </div>
+
+    <!-- Outils -->
+    <div class="bg-red col-span-1 md:col-span-8 lg:col-span-8 row-span-1 md:row-span-1 lg:row-span-1 flex flex-col items-center gap-2 justify-center p-4 rounded-lg order-7">
+        <h3 class="text-light-cream font-bold text-base sm:text-4xl mb-2 font-truculenta">Outils</h3>
+        <ul class="flex gap-2 items-center justify-center flex-wrap">
+            <li class="text-red bg-light-cream text-base px-2.5 py-1 font-truculenta font-bold rounded-lg">Figma</li>
+            <li class="text-red bg-light-cream text-base px-2.5 py-1 font-truculenta font-bold rounded-lg">Suite Adobe</li>
+            <li class="text-red bg-light-cream text-base px-2.5 py-1 font-truculenta font-bold rounded-lg">WebStorm</li>
+            <li class="text-red bg-light-cream text-base px-2.5 py-1 font-truculenta font-bold rounded-lg">Visual Studio</li>
+            <li class="text-red bg-light-cream text-base px-2.5 py-1 font-truculenta font-bold rounded-lg">CapCut</li>
+        </ul>
+    </div>
+</section>
+

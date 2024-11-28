@@ -1,0 +1,21 @@
+---
+const { videos } = Astro.props; // Les vidéos doivent être passées dans Astro.props
+
+
+const extractVideoId = (url) => {
+    const match = url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/);
+    return match ? match[1] : "";
+};
+---
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    {videos.map((video, index) => (
+            <div id={index} class="aspect-w-16 aspect-h-9">
+                <iframe
+                        src={`https://www.youtube.com/embed/${extractVideoId(video.videoUrl)}`}
+                        title={video.title}
+                        class="w-full h-full"
+                ></iframe>
+            </div>
+    ))}
+</div>

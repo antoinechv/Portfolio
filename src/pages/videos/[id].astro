@@ -2,7 +2,7 @@
 import { wpquery } from "../../graphql/wordPressQuery";
 import Layout from "../../Layout/Head.astro";
 import NavBar from "../../components/JSX/NavBar";
-import CardProject from "../../components/CardProject.astro";
+import {ViewTransitions} from "astro:transitions";
 
 export async function getStaticPaths() {
   const data = await wpquery({
@@ -32,56 +32,80 @@ const data = await wpquery({
       video(id: "${id}") {
         id
         videos {
-        description
-        titre
-        tags {
-          nodes {
-            id
-            name
+          description
+          titre
+          tags {
+            nodes {
+              id
+              name
+            }
+          }
+          miniature {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+         
+          galerieVideos {
+            video1
+            video2
           }
         }
-        miniature {
-          node {
-            altText
-            sourceUrl
-          }
-        }
-      }
       }
     }
   `,
 });
 
-const video = data.video;
+
+
+const videoData = data?.video?.videos || {};
+const galerieVideos = Object.values(videoData.galerieVideos || {}).filter((video) => video);
+
+const extractVideoId = (url) => {
+  const match = url.match(/(?:youtube\.com\/watch\\?v=|youtu\.be\/)([^&]+)/);
+  return match ? match[1] : "";
+};
 ---
 
 <html>
 <Layout title="PORTFOLIO" />
 <body>
+<ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0" exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100" />
 <header>
   <NavBar client:load />
 </header>
 
-
-    <main>
-      <div
-        class="  py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
-      >
-        <h1 class="font-truculenta font-black text-black text-6xl">
-          Mes videos
-        </h1>
-        <div
-          class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"
-        >
-          <CardProject
-            image={video.videos.miniature.node.sourceUrl}
-            alt={video.videos.miniature.node.altText}
-            title={video.videos.titre}
-            description={video.videos.description}
-            tags={video.videos.tags}
-          />
+<main>
+  <div
+      class="py-10 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
+  >
+    <h1 class="font-truculenta font-black text-black text-6xl">
+      Galerie Vidéos : {videoData.titre}
+    </h1>
+    {galerieVideos.length > 0 ? (
+        <div class="wrapper mx-auto p-5 max-w-screen-lg">
+          <div class="gallery grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr]">
+            {galerieVideos.map((videoUrl, index) => (
+                <div
+                    key={index}
+                    class="gallery-item aspect-w-16 aspect-h-9"
+                >
+                  <iframe
+                      src={`https://www.youtube.com/embed/${extractVideoId(videoUrl)}`}
+                      title={`Vidéo ${index + 1}`}
+                      class="w-full h-full rounded-lg shadow-md"
+                      allowFullScreen
+                  ></iframe>
+                </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
-  </body>
+    ) : (
+        <p>Aucune vidéo disponible dans la galerie.</p>
+    )}
+  </div>
+
+</main>
+</body>
 </html>

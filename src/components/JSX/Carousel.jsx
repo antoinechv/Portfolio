@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import Button from "./Button";
 
 const Carrousel = ({ title, data, contentType, href }) => {
-  const [itemsPerPage, setItemsPerPage] = useState(3); // Valeur par défaut
+  const [itemsPerPage, setItemsPerPage] = useState(3);
   const totalItems = data[contentType].nodes.length;
-  const [currentIndex, setCurrentIndex] = useState(0); // Index pour le carrousel
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const updateItemsPerPage = () => {
       setItemsPerPage(window.innerWidth < 768 ? 1 : 3);
     };
 
-    updateItemsPerPage(); // Appel initial
+    updateItemsPerPage();
 
     window.addEventListener("resize", updateItemsPerPage);
     return () => window.removeEventListener("resize", updateItemsPerPage);
@@ -20,7 +20,7 @@ const Carrousel = ({ title, data, contentType, href }) => {
   const handleNext = () => {
     setCurrentIndex((prevIndex) => {
       const nextIndex = prevIndex + 1;
-      return nextIndex >= totalItems - itemsPerPage + 1 ? 0 : nextIndex; // Revenir au début si dépassé
+      return nextIndex >= totalItems - itemsPerPage + 1 ? 0 : nextIndex;
     });
   };
 
@@ -29,7 +29,7 @@ const Carrousel = ({ title, data, contentType, href }) => {
       const prevIndexAdjusted = prevIndex - 1;
       return prevIndexAdjusted < 0
         ? Math.max(totalItems - itemsPerPage, 0)
-        : prevIndexAdjusted; // Aller à la fin si nécessaire
+        : prevIndexAdjusted;
     });
   };
 
@@ -42,7 +42,7 @@ const Carrousel = ({ title, data, contentType, href }) => {
         <div
           className="carousel-inner flex transition-transform duration-500"
           style={{
-            transform: `translateX(-${(currentIndex * 100) / itemsPerPage}%)`, // Ajuster pour 1 ou 3 cartes
+            transform: `translateX(-${(currentIndex * 100) / itemsPerPage}%)`,
           }}
         >
           {data[contentType].nodes
@@ -73,14 +73,14 @@ const Carrousel = ({ title, data, contentType, href }) => {
         <button
             className="carousel-prev bg-red text-white aspect-square w-8 rounded-lg"
             onClick={handlePrev}
-            disabled={currentIndex === 0} // Désactiver si au début
+            disabled={currentIndex === 0}
         >
           ◀
         </button>
         <button
             className="carousel-next bg-red text-white aspect-square w-8 rounded-lg"
             onClick={handleNext}
-            disabled={currentIndex >= totalItems - itemsPerPage} // Désactiver si à la fin
+            disabled={currentIndex >= totalItems - itemsPerPage}
         >
           ▶
         </button>

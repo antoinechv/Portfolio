@@ -6,8 +6,6 @@
   :root {
     --red: #d13f3f;
     --red-light: rgb(237, 136, 136);
-  
-    --black: #1b1b1b;
     --black-light: #717171;
     --light-cream: #fff8e8;
     --grey:#C5B8A4;
@@ -15,18 +13,18 @@
     /* Default theme variables */
     --background: var(--light-cream);
     --text: var(--black);
-  
+
     --background-btn: var(--light-cream);
     --text-btn: var(--black);
-  
+
     --background-nav-bar: var(--black);
     --text-nav-bar: var(--light-cream);
-  
+
     --background-nav-link: var(--black);
     --text-nav-link: var(--light-cream);
     --background-nav-link-hover: var(--light-cream);
     --text-nav-link-hover: var(--black);
-  
+
     --background-btn-primary: var(--red);
     --text-btn-primary: var(--light-cream);
     --background-btn-primary-hover: var(--red-light);

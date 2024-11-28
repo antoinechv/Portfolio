@@ -2,11 +2,13 @@
 import NavBar from "../components/JSX/NavBar.jsx";
 import Home from "./home.astro";
 import Layout from "../Layout/Head.astro";
+import { ViewTransitions } from 'astro:transitions';
 ---
 
 <html>
   <Layout title="PORTFOLIO" />
   <body class="bg-light-cream">
+  <ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0" exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100" />
     <header>
       <NavBar client:load />
     </header>

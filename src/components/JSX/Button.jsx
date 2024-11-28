@@ -20,9 +20,9 @@ const Button = ({ color = "red", size = "medium", children, href,...rest }) => {
     <motion.a
       className={`${baseStyle} ${colorStyles[color]} ${sizeStyles[size]}`}
       href={href}
-      whileHover={{ scale: 1.1 }} // Animation à l'hover (agrandissement)
-      whileTap={{ scale: 0.95 }} // Animation au clic (réduction)
-      transition={{ type: "spring", stiffness: 300 }} // Transition plus dynamique
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 300 }}
       {...rest}
     >
       {children}
