@@ -32,7 +32,7 @@ const AccordeonComponent = ({ title,data, contentType }) => {
                     >
                         <a
                             href={`/${contentType}/${mediaNode.id}`}
-                            target="_blank"
+
                             rel="noopener noreferrer"
                             className="block relative"
                         >
