@@ -1,6 +1,8 @@
 ---
 import Button from "./JSX/Button.jsx";
 import Accordeon from "./Accordeon.astro";
+import { Image } from 'astro:assets';
+import localHomeImage from '../assets/bdx-22.jpg';
 ---
 <section
         class="min-h-screen bg-light-cream px-4 py-16 sm:px-8 sm:py-16 md:px-16 md:py-24 grid gap-4 grid-cols-1 md:grid-cols-8 md:grid-rows-6 lg:grid-cols-13 lg:grid-rows-6"
@@ -19,11 +21,8 @@ import Accordeon from "./Accordeon.astro";
 
     <!-- Image -->
     <div class="col-span-1 md:col-span-4 lg:col-span-3 row-span-1 md:row-span-2 lg:row-span-3 w-full overflow-clip order-3 rounded-lg">
-        <img
-                src="/assets/bdx-22.jpg"
-                alt="Portrait"
-                class="object-cover h-full"
-        />
+        <Image src={localHomeImage} alt="portrait" />
+
     </div>
 
     <!-- Accordeons -->

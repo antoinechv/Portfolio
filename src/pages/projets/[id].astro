@@ -1,13 +1,13 @@
 ---
-import { wpquery } from "../../graphql/wordPressQuery";
+import {wpquery} from "../../graphql/wordPressQuery";
 import Layout from "../../Layout/Head.astro";
 import NavBar from "../../components/JSX/NavBar";
-import CardProject from "../../components/CardProject.astro";
 import {ViewTransitions} from "astro:transitions";
+import {nominalTypeHack} from "prop-types";
 
 export async function getStaticPaths() {
-  const data = await wpquery({
-    query: `
+    const data = await wpquery({
+        query: `
       {
         projets {
           nodes {
@@ -16,25 +16,41 @@ export async function getStaticPaths() {
         }
       }
     `,
-  });
+    });
 
-  const paths = data.projets.nodes.map((projet) => ({
-    params: { id: projet.id.toString() },
-  }));
+    const paths = data.projets.nodes.map((projet) => ({
+        params: {id: projet.id.toString()},
+    }));
 
-  return paths;
+    return paths;
 }
 
-const { id } = Astro.params;
+const {id} = Astro.params;
 
 const data = await wpquery({
-  query: `
+    query: `
     {
       projet(id: "${id}") {
-        id
-        projets {
+    id
+    projets {
+        annee
         description
+        descriptionProjet
         titre
+        figma
+         miniatureFigma {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+         miniatureWeb {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        pageWeb
         tags {
           nodes {
             id
@@ -47,44 +63,206 @@ const data = await wpquery({
             sourceUrl
           }
         }
+        logiciel {
+          nodes {
+            id
+            name
+          }
+        }
+        gallerie {
+          photo {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+          photo2 {
+            node {
+              altText
+              sourceUrl
+              uri
+            }
+          }
+          photo3 {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+          photo_4 {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+          photo_5 {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+          photo_6 {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+          photo_7 {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+          photo_8 {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+          photo_9 {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+          photo_10 {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+        }
       }
-      }
+    }
     }
   `,
 });
 
-const projet = data.projet;
+const projet = data.projet?.projets;
+const gallerie = projet?.gallerie || {};
+
+let galleryPhotos = Object.values({
+    photo: gallerie.photo?.node,
+    photo2: gallerie.photo2?.node,
+    photo3: gallerie.photo3?.node,
+    photo_4: gallerie.photo_4?.node,
+    photo_5: gallerie.photo_5?.node,
+    photo_6: gallerie.photo_6?.node,
+    photo_7: gallerie.photo_7?.node,
+    photo_8: gallerie.photo_8?.node,
+    photo_9: gallerie.photo_9?.node,
+    photo_10: gallerie.photo_10?.node,
+}).filter((photo) => photo?.sourceUrl);
 ---
 
 <!doctype html>
 <html>
-<Layout title="PORTFOLIO" />
+<Layout title="PORTFOLIO"/>
 <body>
-<ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0" exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100" />
+<ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0"
+                 exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100"/>
 <header>
-  <NavBar client:load />
+    <NavBar client:load/>
 </header>
+<main>
 
+    <div class="py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
 
-    <main>
-      <div
-        class=" py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
-      >
-        <h1 class="font-truculenta font-black text-black text-6xl">
-          {projet.projets.titre}
-        </h1>
-        <div
-          class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"
-        >
-          <CardProject
-            image={projet.projets.miniature.node.sourceUrl}
-            alt={projet.projets.miniature.node.altText}
-            title={projet.projets.titre}
-            description={projet.projets.description}
-            tags={projet.projets.tags}
-          />
+        <!-- Section info -->
+        <div class="flex flex-col  gap-5 flex-wrap w-full border-b-2 border-black p-5">
+            <h1 class="font-truculenta font-black text-black text-6xl">
+                {projet.titre}
+            </h1>
+            <p class="font-poppins font-medium text-black text-sm">
+                {projet.description}
+            </p>
+            <ul class="flex flex-row gap-2 w-full">
+                {projet.tags.nodes.map((tag) => (
+                        <li class="text-white bg-red text-base font-medium px-2.5 py-1 rounded-lg font-truculenta list-none"
+                            key={tag.id}>{tag.name}</li>
+                ))}
+            </ul>
         </div>
-      </div>
-    </main>
-  </body>
+
+        <div class="flex md:flex-row flex-col-reverse gap-5 w-full border-b-2 border-black  p-5">
+            <div class="flex flex-col gap-5 w-full  justify-between p-5 border-r-2 border-black">
+                <div class="flex flex-col gap-5 w-full justify-center ">
+                    <h2 class="font-truculenta font-black text-red text-3xl">
+                        Description du projet
+                    </h2>
+                    <p class="font-poppins font-medium text-black text-sm">
+                        {projet.descriptionProjet}
+                    </p>
+                </div>
+                <div class="flex flex-col gap-5 w-full justify-center">
+                    <h3 class="font-truculenta font-black text-red text-3xl">
+                        Logiciel utilisés
+                    </h3>
+                    <ul class="flex flex-row gap-2 w-full">
+                        {projet.logiciel.nodes.map((logiciel) => (
+                                <li class="text-white bg-red text-base font-medium px-2.5 py-1 rounded-lg font-truculenta"
+                                    key={logiciel.id}>{logiciel.name}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-5 w-full justify-between">
+                <img
+                        src={projet.miniature.node.sourceUrl}
+                        alt={projet.miniature.node.altText}
+                        class=" h-auto rounded-lg shadow-lg"
+                />
+
+                <div class="flex flex-row gap-2 w-full items-center h-min">
+                    <h2 class="font-truculenta font-black text-black text-lg">Année: </h2>
+                    <span class="font-truculenta font-black text-black text-base"> {projet.annee} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper mx-auto p-5 max-w-screen-lg">
+        <div class="flex flex-col gap-2 w-full">
+            {projet.figma && (
+                    <h2 class="font-truculenta font-black text-black text-xl">Prototype Figma </h2>
+                    <a href={projet.figma} target="_blank" rel="noopener noreferrer">
+                        <img
+                                src={projet.miniatureFigma.node.sourceUrl}
+                                alt={projet.miniatureFigma.node.altText}
+                                class=" h-auto rounded-lg shadow-lg"
+                        />
+                    </a>
+            )}
+
+            {projet.pageWeb && (
+                    <h2 class="font-truculenta font-black text-black text-xl">Page web </h2>
+                    <a href={projet.pageWeb} target="_blank" rel="noopener noreferrer">
+                        <img
+                                src={projet.miniatureWeb.node.sourceUrl}
+                                alt={projet.miniatureWeb.node.altText}
+                                class="h-auto rounded-lg shadow-lg"
+                        />
+                    </a>
+            )}
+
+            <div class="flex flex-col gap-2 w-full">
+                <h2 class="font-truculenta font-black text-black text-xl">Le projet </h2>
+                <div class="flex flex-col  w-full">
+                    {galleryPhotos.map((photo, index) => (
+
+                            <img
+                                    key={index}
+                                    src={photo.sourceUrl}
+                                    alt={photo.altText}
+                                    class="w-full h-auto"
+                            />
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
 </html>
