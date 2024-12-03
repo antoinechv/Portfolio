@@ -143,7 +143,7 @@ let galleryPhotos = Object.values({
 
 <html>
 <Layout title="PORTFOLIO"/>
-<body>
+<body class="bg-light-cream">
 <ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0" exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100" />
 <header>
     <NavBar client:load/>
@@ -156,7 +156,7 @@ let galleryPhotos = Object.values({
         </h1>
         {galleryPhotos.length > 0 ? (
                 <div class="wrapper mx-auto p-5 max-w-screen-lg">
-                  <div class=" grid gap-5 grid-cols-1  lg:grid-cols-2 xl:grid-cols-4 grid-flow-row">
+                  <div class=" md:grid flex gap-5  lg:grid-cols-2 xl:grid-cols-4 grid-flow-row flex-col">
                         {galleryPhotos.map((galleryPhoto, index) => (
                             <GalleryItem client:load galleryPhoto={galleryPhoto} index={index} />
                         ))}

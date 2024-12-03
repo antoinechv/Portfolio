@@ -40,7 +40,7 @@ const data = await wpquery({
 
 <html>
   <Layout title="PORTFOLIO" />
-  <body>
+  <body class="bg-light-cream">
   <ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0" exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100" />
     <header>
       <NavBar client:load />
@@ -51,7 +51,7 @@ const data = await wpquery({
       <h1 class="font-truculenta font-black text-black text-6xl">
         Mes videos
       </h1><div
-        class="flex flex-row flex-wrap gap-10 w-full items-center justify-center"
+        class="flex flex-row flex-wrap gap-10 w-full  items-stretch justify-center"
       >
       {data.videos.nodes
           .filter(

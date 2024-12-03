@@ -158,7 +158,7 @@ let galleryPhotos = Object.values({
 <!doctype html>
 <html>
 <Layout title="PORTFOLIO"/>
-<body>
+<body class="bg-light-cream">
 <ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0"
                  exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100"/>
 <header>
@@ -168,15 +168,19 @@ let galleryPhotos = Object.values({
 
     <div class="py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
 
-        <!-- Section info -->
         <div class="flex flex-col  gap-5 flex-wrap w-full border-b-2 border-black p-5">
+            <div class="flex flex-row gap-2 items-center  ">
+                <a class="text-black text-lg font-black font-truculenta" href="/projets/">Projets</a>
+                <span class="text-black text-lg">/</span>
+                <a class="text-black text-lg font-black font-truculenta" href="">{projet.titre}</a>
+            </div>
             <h1 class="font-truculenta font-black text-black text-6xl">
                 {projet.titre}
             </h1>
             <p class="font-poppins font-medium text-black text-sm">
                 {projet.description}
             </p>
-            <ul class="flex flex-row gap-2 w-full">
+            <ul class="flex flex-row gap-2 w-full flex-wrap">
                 {projet.tags.nodes.map((tag) => (
                         <li class="text-white bg-red text-base font-medium px-2.5 py-1 rounded-lg font-truculenta list-none"
                             key={tag.id}>{tag.name}</li>
@@ -198,7 +202,7 @@ let galleryPhotos = Object.values({
                     <h3 class="font-truculenta font-black text-red text-3xl">
                         Logiciel utilisés
                     </h3>
-                    <ul class="flex flex-row gap-2 w-full">
+                    <ul class="flex flex-row gap-2 w-full flex-wrap">
                         {projet.logiciel.nodes.map((logiciel) => (
                                 <li class="text-white bg-red text-base font-medium px-2.5 py-1 rounded-lg font-truculenta"
                                     key={logiciel.id}>{logiciel.name}</li>

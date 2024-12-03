@@ -1,12 +1,18 @@
 ---
-import { wpquery } from "../../graphql/wordPressQuery";
+import {wpquery} from "../../graphql/wordPressQuery";
 import Layout from "../../Layout/Head.astro";
 import NavBar from "../../components/JSX/NavBar";
 import {ViewTransitions} from "astro:transitions";
+import {nominalTypeHack} from "prop-types";
+
+import {YouTube} from 'astro-embed';
+
+
+
 
 export async function getStaticPaths() {
-  const data = await wpquery({
-    query: `
+    const data = await wpquery({
+        query: `
       {
         videos {
           nodes {
@@ -15,96 +21,183 @@ export async function getStaticPaths() {
         }
       }
     `,
-  });
+    });
 
-  const paths = data.videos.nodes.map((video) => ({
-    params: { id: video.id.toString() },
-  }));
+    const paths = data.videos.nodes.map((video) => ({
+        params: {id: video.id.toString()},
+    }));
 
-  return paths;
+    return paths;
 }
 
-const { id } = Astro.params;
+const {id} = Astro.params;
 
 const data = await wpquery({
-  query: `
+    query: `
     {
       video(id: "${id}") {
-        id
-        videos {
-          description
-          titre
-          tags {
-            nodes {
-              id
-              name
-            }
+    id
+    videos {
+      annee
+      description
+      descriptionProjet
+      titre
+      miniature {
+        node {
+          altText
+          sourceUrl
+        }
+      }
+      logiciel {
+        nodes {
+          id
+          name
+        }
+      }
+      gallerie {
+        video1
+        video2
+        video3
+        video4
+        video5
+        video6
+        video7
+        video8
+        video9
+        video10
+      }
+      tags {
+          nodes {
+            id
+            name
           }
-          miniature {
-            node {
-              altText
-              sourceUrl
-            }
-          }
-         
-          galerieVideos {
-            video1
-            video2
+        }
+      sectionvideo {
+        lien
+        titre
+        fichier {
+          node {
+            altText
+            uri
           }
         }
       }
     }
+  }
+    }
   `,
 });
 
+const video = data.video?.videos;
+const gallerie = video?.gallerie || {};
 
-
-const videoData = data?.video?.videos || {};
-const galerieVideos = Object.values(videoData.galerieVideos || {}).filter((video) => video);
-
-const extractVideoId = (url) => {
-  const match = url.match(/(?:youtube\.com\/watch\\?v=|youtu\.be\/)([^&]+)/);
-  return match ? match[1] : "";
-};
+let galleryVideos = Object.values({
+    photo: gallerie.video1,
+    photo2: gallerie.video2,
+    photo3: gallerie.video3,
+    photo_4: gallerie.video4,
+    photo_5: gallerie.video5,
+    photo_6: gallerie.video6,
+    photo_7: gallerie.video7,
+    photo_8: gallerie.video8,
+    photo_9: gallerie.video9,
+    photo_10: gallerie.video10,
+}).filter((video) => video);
 ---
 
+<!doctype html>
 <html>
-<Layout title="PORTFOLIO" />
-<body>
-<ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0" exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100" />
+<Layout title="PORTFOLIO"/>
+<body class="bg-light-cream">
+<ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0"
+                 exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100"/>
 <header>
-  <NavBar client:load />
+    <NavBar client:load/>
 </header>
-
 <main>
-  <div
-      class="py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
-  >
-    <h1 class="font-truculenta font-black text-black text-6xl">
-      Galerie Vidéos : {videoData.titre}
-    </h1>
-    {galerieVideos.length > 0 ? (
-        <div class="wrapper mx-auto p-5 max-w-screen-lg">
-          <div class="gallery grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr]">
-            {galerieVideos.map((videoUrl, index) => (
-                <div
-                    key={index}
-                    class="gallery-item aspect-w-16 aspect-h-9"
-                >
-                  <iframe
-                      src={`https://www.youtube.com/embed/${extractVideoId(videoUrl)}`}
-                      title={`Vidéo ${index + 1}`}
-                      class="w-full h-full rounded-lg shadow-md"
-                      allowFullScreen
-                  ></iframe>
-                </div>
-            ))}
-          </div>
+
+    <div class="py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
+
+        <div class="flex flex-col  gap-5 flex-wrap w-full border-b-2 border-black p-5">
+            <div class="flex flex-row gap-2 items-center  ">
+                <a class="text-black text-lg font-black font-truculenta" href="/videos/">Videos</a>
+                <span class="text-black text-lg">/</span>
+                <a class="text-black text-lg font-black font-truculenta" href="">{video.titre}</a>
+            </div>
+            <h1 class="font-truculenta font-black text-black text-6xl">
+                {video.titre}
+            </h1>
+            <p class="font-poppins font-medium text-black text-sm">
+                {video.description}
+            </p>
+            <ul class="flex flex-row gap-2 w-full flex-wrap">
+                {video.tags.nodes.map((tag) => (
+                        <li class="text-white bg-red text-base font-medium px-2.5 py-1 rounded-lg font-truculenta list-none"
+                            key={tag.id}>{tag.name}</li>
+                ))}
+            </ul>
         </div>
-    ) : (
-        <p>Aucune vidéo disponible dans la galerie.</p>
-    )}
-  </div>
+
+        <div class="flex md:flex-row flex-col-reverse gap-5 w-full border-b-2 border-black  p-5">
+            <div class="flex flex-col gap-5 w-full  justify-between p-5 border-r-2 border-black">
+                <div class="flex flex-col gap-5 w-full justify-center ">
+                    <h2 class="font-truculenta font-black text-red text-3xl">
+                        Description du projet
+                    </h2>
+                    <p class="font-poppins font-medium text-black text-sm">
+                        {video.descriptionProjet}
+                    </p>
+                </div>
+                <div class="flex flex-col gap-5 w-full justify-center">
+                    <h3 class="font-truculenta font-black text-red text-3xl">
+                        Logiciel utilisés
+                    </h3>
+                    <ul class="flex flex-row gap-2 w-full flex-wrap">
+                        {video.logiciel.nodes.map((logiciel) => (
+                                <li class="text-white bg-red text-base font-medium px-2.5 py-1 rounded-lg font-truculenta"
+                                    key={logiciel.id}>{logiciel.name}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-5 w-full justify-between">
+                <img
+                        src={video.miniature.node.sourceUrl}
+                        alt={video.miniature.node.altText}
+                        class=" h-auto rounded-lg shadow-lg"
+                />
+
+                <div class="flex flex-row gap-2 w-full items-center h-min">
+                    <h2 class="font-truculenta font-black text-black text-lg">Année: </h2>
+                    <span class="font-truculenta font-black text-black text-base"> {video.annee} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper mx-auto p-5 max-w-screen-lg">
+        <div class="flex flex-col gap-2 w-full">
+            <div class="flex flex-col gap-2 w-full">
+                {video.sectionvideo && (
+                        <h2 class="font-truculenta font-black text-black text-xl">{video.sectionvideo.titre}</h2>
+                        <a href={video.sectionvideo.lien} target="_blank" rel="noopener noreferrer">
+                            <img
+                                    src={video.sectionvideo.fichier.node.uri}
+                                    alt={video.sectionvideo.fichier.node.altText}
+                                    class=" h-auto rounded-lg shadow-lg"
+                            />
+                        </a>
+                )}
+                <h2 class="font-truculenta font-black text-black text-xl">Le projet </h2>
+                <div class="flex flex-col items-center w-full">
+                    {galleryVideos.map((video, index) => (
+                            <YouTube class="w-full" key={index} id={video} posterQuality="high"/>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
 
 </main>
 </body>
