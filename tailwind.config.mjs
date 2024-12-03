@@ -5,6 +5,7 @@ module.exports = {
   theme: {
     fontFamily: {
       truculenta: ['"Truculenta"'],
+      poppins:['"Poppins"'],
     },
     extend: {
       gridTemplateColumns: {
