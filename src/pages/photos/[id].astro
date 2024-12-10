@@ -33,20 +33,28 @@ const data = await wpquery({
   photo(id: "${id}") {
     id
     photos {
-      description
-      titre
-      tags {
-        nodes {
-          id
-          name
+      annee
+        description
+        descriptionProjet
+        titre
+        tags {
+          nodes {
+            id
+            name
+          }
         }
-      }
-      miniature {
-        node {
-          altText
-          sourceUrl
+        miniature {
+          node {
+            altText
+            sourceUrl
+          }
         }
-      }
+        logiciel {
+          nodes {
+            id
+            name
+          }
+        }
       gallerie {
         photo {
           node {
@@ -151,9 +159,66 @@ let galleryPhotos = Object.values({
 
 <main>
     <div class="py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
-        <h1 class="font-truculenta font-black text-black text-6xl">
-            Galerie : {photo.titre}
-        </h1>
+
+        <div class="flex flex-col  gap-5 flex-wrap w-full border-b-2 border-black p-5">
+            <div class="flex flex-row gap-2 items-center  ">
+                <a class="text-black text-lg font-black font-truculenta" href="/projets/">Projets</a>
+                <span class="text-black text-lg">/</span>
+                <a class="text-black text-lg font-black font-truculenta" href="">{photo.titre}</a>
+            </div>
+            <h1 class="font-truculenta font-black text-black text-6xl">
+                {photo.titre}
+            </h1>
+            <p class="font-poppins font-medium text-black text-sm">
+                {photo.description}
+            </p>
+            <ul class="flex flex-row gap-2 w-full flex-wrap">
+                {photo.tags.nodes.map((tag) => (
+                        <li class="text-white bg-red text-base font-medium px-2.5 py-1 rounded-lg font-truculenta list-none"
+                            key={tag.id}>{tag.name}</li>
+                ))}
+            </ul>
+        </div>
+
+        <div class="flex md:flex-row flex-col-reverse gap-5 w-full  border-black  p-5">
+            <div class="flex flex-col gap-5 w-full  justify-between p-5 border-r-2 border-black">
+                <div class="flex flex-col gap-5 w-full justify-center ">
+                    <h2 class="font-truculenta font-black text-red text-3xl">
+                        Description du projet
+                    </h2>
+                    <p class="font-poppins font-medium text-black text-sm">
+                        {photo.descriptionProjet}
+                    </p>
+                </div>
+                <div class="flex flex-col gap-5 w-full justify-center">
+                    <h3 class="font-truculenta font-black text-red text-3xl">
+                        Logiciel utilisés
+                    </h3>
+                    <ul class="flex flex-row gap-2 w-full flex-wrap">
+                        {photo.logiciel.nodes.map((logiciel) => (
+                                <li class="text-white bg-red text-base font-medium px-2.5 py-1 rounded-lg font-truculenta"
+                                    key={logiciel.id}>{logiciel.name}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-5 w-full justify-between">
+                <img
+                        src={photo.miniature.node.sourceUrl}
+                        alt={photo.miniature.node.altText}
+                        class=" h-auto rounded-lg shadow-lg"
+                />
+
+                <div class="flex flex-row gap-2 w-full items-center h-min">
+                    <h2 class="font-truculenta font-black text-black text-lg">Année: </h2>
+                    <span class="font-truculenta font-black text-black text-base"> {photo.annee} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
+
         {galleryPhotos.length > 0 ? (
                 <div class="wrapper mx-auto p-5 max-w-screen-lg">
                   <div class=" md:grid flex gap-5  lg:grid-cols-2 xl:grid-cols-4 grid-flow-row flex-col">

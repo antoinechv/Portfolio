@@ -51,14 +51,14 @@ const Navbar = () => {
             {/* Overlay */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black  z-10"
+                    className="fixed inset-0 bg-red  z-10"
                     onClick={toggleMenu}
                 ></div>
             )}
             <ul
                 className={`fixed top-16 left-0 w-full h-full  transition-transform duration-300 z-50 ${
                     isOpen ? "translate-x-0" : "-translate-x-full"
-                } md:static md:flex md:translate-x-0 md:w-max md:bg-black`}
+                } md:static md:flex md:translate-x-0 md:w-max md:bg-bg-red`}
             >
               {navLinks.map((link) => (
                   <li key={link.href} className="p-4">

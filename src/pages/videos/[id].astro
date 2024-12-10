@@ -34,68 +34,107 @@ const {id} = Astro.params;
 
 const data = await wpquery({
     query: `
-    {
-      video(id: "${id}") {
-    id
-    videos {
-      annee
-      description
-      descriptionProjet
-      titre
-      miniature {
-        node {
-          altText
-          sourceUrl
+  {
+    video(id: "${id}") {
+      id
+      videos {
+        titre
+        description
+         miniature {
+          node {
+            altText
+            sourceUrl
+          }
         }
-      }
-      logiciel {
-        nodes {
-          id
-          name
-        }
-      }
-      gallerie {
-        video1
-        video2
-        video3
-        video4
-        video5
-        video6
-        video7
-        video8
-        video9
-        video10
-      }
-      tags {
+        tags {
           nodes {
             id
             name
           }
         }
-      sectionvideo {
-        titre
-        description
-        fichier {
-          node {
-            altText
-            link
+        descriptionProjet
+          logiciel {
+          nodes {
+            id
+            name
           }
         }
-        miniature {
-        node {
-          altText
-          link
+        annee
+        gallerie {
+          video1
+          video2
+          video3
+          video4
+          video5
+          video6
+          video7
+          video8
+          video9
+          video10
         }
-      }
+         section{
+         sectionvideo2 {
+          titre
+          description
+          videos {
+            fichier1 {
+              node {
+                altText
+                link
+              }
+            }
+            fichier2 {
+              node {
+                altText
+                link
+              }
+            }
+          } 
+        } 
+        sectionvideo {
+          titre
+          description
+          videos {
+            fichier1 {
+              node {
+                altText
+                link
+              }
+            }
+            fichier2 {
+              node {
+                altText
+                link
+              }
+            }
+         }
+        }
+        }
       }
     }
   }
-    }
   `,
 });
 
 const video = data.video?.videos;
+const section = video?.section;
 const gallerie = video?.gallerie || {};
+
+const sections = Object.values({
+    section1: section.sectionvideo,
+    section2: section.sectionvideo2,
+}).filter((section) => section);
+
+
+const sectionsvideos = Object.values({
+    section1: section.sectionvideo,
+    section2: section.sectionvideo2,
+})
+    .filter((section) => section)
+    .flatMap((section) =>
+        [section.videos.fichier1, section.videos.fichier2].filter((file) => file)
+    );
+
 
 let galleryVideos = Object.values({
     photo: gallerie.video1,
@@ -185,43 +224,66 @@ let galleryVideos = Object.values({
     <div class="wrapper mx-auto p-5 max-w-screen-lg">
         <div class="flex flex-col gap-5 w-full">
             <div class="flex flex-col gap-5 w-full">
-                {video.sectionvideo && (
-                        <h2 class="font-truculenta font-black text-red text-5xl">{video.sectionvideo.titre}</h2>
-                        <p class="font-poppins font-medium text-black text-sm">
-                            {video.sectionvideo.description}
-                        </p>
+                {sections.map((section, sectionIndex) => (
+                    section && (
+                                <div key={sectionIndex} className="section-container mb-8">
+                                    {section.titre && (
+                                            <h2 class="font-truculenta font-black text-red text-5xl mb-4">
+                                                {section.titre}
+                                            </h2>
+                                    )}
 
+                                    {section.description && (
+                                            <p class="font-poppins font-medium text-black text-sm mb-4">
+                                                {section.description}
+                                            </p>
+                                    )}
 
-                            <video
-                                    src={video.sectionvideo.fichier.node.link}
-                                    alt={video.sectionvideo.fichier.node.altText || 'Vidéo'}
-                                    controls
-                                    controlsList="nodownload"
-                                    disablePictureInPicture
-                                    poster={video.sectionvideo.miniature.node.link}
-                                    class="w-full h-auto rounded-xl shadow-lg  "
-                                    onLoadedMetadata={(e) => {
-                                        e.target.currentTime = 4;
-                                    }}
-                            />
-
-
-                )}
-                <h2 class="font-truculenta font-black text-red text-5xl">Mes vidéos </h2>
-                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {galleryVideos.map((video, index) => (
-                            <li><YouTube
-                                    class=" rounded-lg shadow-lg"
-                                    key={index}
-                                    id={video}
-                                    posterQuality="high"
-                            /></li>
+                                    <ul class="flex gap-4 flex-row justify-center items-center w-full">
+                                        {[section.videos?.fichier1, section.videos?.fichier2]
+                                            .filter((file) => file).map((video, videoIndex) => (
+                                                        <li key={videoIndex} class="w-2/5">
+                                                            <video
+                                                                    src={video.node.link}
+                                                                    controls
+                                                                    controlsList="nodownload"
+                                                                    disablePictureInPicture
+                                                                    class="rounded-xl shadow-lg"
+                                                            />
+                                                        </li>
+                                            ))}
+                                    </ul>
+                                </div>
+                    )
                     ))}
-                </ul>
-            </div>
-        </div>
-    </div>
 
-</main>
-</body>
-</html>
+
+
+
+                    <ul
+                            class={`grid gap-4 items-center justify-center ${
+                                galleryVideos.length === 1
+                                    ? "grid-cols-1"
+                                    : galleryVideos.length === 2
+                                        ? "grid-cols-2"
+                                        : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                            }`}
+                    >
+                        {galleryVideos.map((video, index) => (
+                                <li key={index} class=" flex justify-center items-center">
+                                    <YouTube
+                                            class="rounded-lg shadow-lg items-center w-full"
+                                            id={video}
+                                            posterQuality="high"
+                                    />
+
+                                </li>
+                        ))}
+                    </ul>
+
+
+                    </div>
+                    </div>
+                    </div></main>
+                    </body>
+                    </html>
