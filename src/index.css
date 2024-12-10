@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap');
 
+
   :root {
     --red: #d13f3f;
     --red-light: rgb(237, 136, 136);

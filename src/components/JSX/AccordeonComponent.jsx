@@ -7,7 +7,7 @@ const AccordeonComponent = ({ title,data, contentType }) => {
 
 
 <div className="border-2 border-light-cream rounded-2xl ">
-            <h1 className="text-light-cream text-4xl font-bold font-truculenta text-center">{title}</h1>
+            <h2 className="text-light-cream text-4xl font-bold font-truculenta text-center">{title}</h2>
             {data[contentType]?.nodes.map((mediaNode, index) => (
                 <div
                     key={index}

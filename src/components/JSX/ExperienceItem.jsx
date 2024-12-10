@@ -29,7 +29,7 @@ const ListItem = ({ title, description }) => {
   }, []);
 
   return (
-    <motion.li
+    <motion.article
       ref={itemRef}
       className="flex flex-col border-b-2 border-black pb-4 mb-4"
       initial={{ opacity: 0, y: 20 }} // Début invisible et décalé vers le bas
@@ -38,7 +38,7 @@ const ListItem = ({ title, description }) => {
     >
       <h2 className="font-bold text-2xl font-truculenta">{title}</h2>
       <p className="font-bold text-base font-truculenta">{description}</p>
-    </motion.li>
+    </motion.article>
   );
 };
 
