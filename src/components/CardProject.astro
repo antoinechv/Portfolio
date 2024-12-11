@@ -10,10 +10,10 @@ import Button from "./JSX/Button";
   <div class="flex gap-3 flex-col w-full  flex-grow">
     <h3 class="text-light-cream text-2xl font-semibold mb-auto">{title}</h3>
     <p class="text-light-cream text-base">{description}</p>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3" >
       {
         tags.nodes.map((tag) => (
-          <span
+          <span data-type={tag.id}
             id={tag.id}
             class="text-white bg-red text-xs font-medium px-2.5 py-1 rounded-lg font-truculenta"
           >

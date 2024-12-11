@@ -1,15 +1,21 @@
 ---
 import ProjectCard from "../components/CardProject.astro";
-import { wpquery } from "../graphql/wordPressQuery";
+import {wpquery} from "../graphql/wordPressQuery";
 import NavBar from "../components/JSX/NavBar";
 import Layout from "../Layout/Head.astro";
 import "../index.css";
-import { ViewTransitions } from 'astro:transitions';
+import {ViewTransitions} from 'astro:transitions';
 
-
+// Fetching both photos and taxonomy data
 const data = await wpquery({
-  query: `
+    query: `
  {
+  typesPhotos {
+    nodes {
+      name
+      id 
+        }
+  }
   photos {
     nodes {
       slug
@@ -32,44 +38,77 @@ const data = await wpquery({
       id
     }
   }
+ 
 }
   `,
 });
+
+const {typesPhotos, photos} = data;
 ---
 
 <!doctype html>
 <html lang="fr">
-    <Layout title="PORTFOLIO" />
-  <body class="bg-light-cream">
-  <ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0" exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100" />
-    <header>
-      <NavBar client:load />
-    </header>
-
-    <main>
-      <div
-        class="py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
-      >
+<Layout title="PORTFOLIO"/>
+<body class="bg-light-cream">
+<ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0"
+                 exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100"/>
+<header>
+    <NavBar client:load/>
+</header>
+<main>
+    <div
+            class="py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5"
+    >
         <h1 class="font-truculenta font-black text-black text-6xl">
-          Mes photos
+            Mes photos
         </h1>
-        <div
-          class="flex flex-row flex-wrap gap-10 w-full items-stretch justify-center"
-        >
-          {
-            data.photos.nodes.map((photoNode) => (
-              <ProjectCard
-                href={`/photos/${photoNode.id}`}
-                image={photoNode.photos.miniature.node.sourceUrl}
-                alt={photoNode.photos.miniature.node.altText}
-                title={photoNode.photos.titre}
-                description={photoNode.photos.description}
-                tags={photoNode.photos.tags}
-              />
-            ))
-          }
+
+        <!-- Navigation for filtering by taxonomy -->
+        <div class="flex flex-row flex-wrap gap-4 justify-center">
+            <button
+                    data-type="all"
+                    class="text-white bg-red text-sm font-medium px-2.5 py-1 rounded-lg font-truculenta"
+            >
+                Tous
+            </button>
+            {typesPhotos.nodes.map((type) => (
+                    <button
+
+                            class="text-white bg-red text-sm font-medium px-2.5 py-1 rounded-lg font-truculenta"
+                    >
+                        {type.name}
+                    </button>
+            ))}
         </div>
-      </div>
-    </main>
-  </body>
+
+        <div
+                id="photo-gallery"
+                class="flex flex-row flex-wrap gap-10 w-full items-stretch justify-center"
+        >
+            {data.photos.nodes
+                .filter(
+                    (photoNode) =>
+                        photoNode.photos?.miniature?.node?.sourceUrl && photoNode.photos?.titre
+                )
+                .map((photoNode) => (
+                        <div
+                                class="flex flex-col items-center"
+                        >
+                            <ProjectCard
+                                    key={photoNode.id}
+                                    href={`/videos/${photoNode.id}`}
+                                    image={photoNode.photos.miniature.node.sourceUrl}
+                                    alt={photoNode.photos.miniature.node.altText}
+                                    title={photoNode.photos.titre}
+                                    description={photoNode.photos.description}
+                                    tags={photoNode.photos.tags}
+                            />
+                        </div>
+                ))}
+        </div>
+    </div>
+</main>
+
+
+</body>
 </html>

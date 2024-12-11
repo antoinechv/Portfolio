@@ -11,6 +11,12 @@ import { ViewTransitions } from 'astro:transitions';
 const data = await wpquery({
   query: `
   {
+   typesVideos {
+    nodes {
+      name
+      id
+    }
+  }
   videos {
     nodes {
     slug
@@ -50,7 +56,22 @@ const data = await wpquery({
     <div class=" py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
       <h1 class="font-truculenta font-black text-black text-6xl">
         Mes videos
-      </h1><div
+      </h1>
+      <div class="flex flex-row flex-wrap gap-4 justify-center">
+        <button  data-type="all"  class="text-white bg-red text-sm font-medium px-4 py-2 rounded-lg font-truculenta" >
+          Tous
+        </button>
+        {data.typesVideos.nodes.map((type) => (
+            <button
+
+                class="text-white bg-red text-sm font-medium px-4 py-2 rounded-lg font-truculenta"
+            >
+              {type.name}
+            </button>
+        ))}
+      </div>
+      <div
+          id="video-gallery"
         class="flex flex-row flex-wrap gap-10 w-full  items-stretch justify-center"
       >
       {data.videos.nodes
