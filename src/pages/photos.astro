@@ -6,7 +6,7 @@ import Layout from "../Layout/Head.astro";
 import "../index.css";
 import {ViewTransitions} from 'astro:transitions';
 
-// Fetching both photos and taxonomy data
+
 const data = await wpquery({
     query: `
  {
@@ -96,7 +96,7 @@ const {typesPhotos, photos} = data;
                         >
                             <ProjectCard
                                     key={photoNode.id}
-                                    href={`/videos/${photoNode.id}`}
+                                    href={`/photos/${photoNode.id}`}
                                     image={photoNode.photos.miniature.node.sourceUrl}
                                     alt={photoNode.photos.miniature.node.altText}
                                     title={photoNode.photos.titre}

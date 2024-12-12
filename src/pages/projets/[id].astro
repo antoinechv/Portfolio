@@ -3,7 +3,7 @@ import {wpquery} from "../../graphql/wordPressQuery";
 import Layout from "../../Layout/Head.astro";
 import NavBar from "../../components/JSX/NavBar";
 import {ViewTransitions} from "astro:transitions";
-import {nominalTypeHack} from "prop-types";
+
 
 export async function getStaticPaths() {
     const data = await wpquery({

@@ -17,7 +17,7 @@ const Button = ({ color = "red", size = "medium", children, href,...rest }) => {
   };
 
   return (
-    <motion.a
+    <motion.button
       className={`${baseStyle} ${colorStyles[color]} ${sizeStyles[size]}`}
       href={href}
       whileHover={{ scale: 1.1 }}
@@ -26,7 +26,7 @@ const Button = ({ color = "red", size = "medium", children, href,...rest }) => {
       {...rest}
     >
       {children}
-    </motion.a>
+    </motion.button>
   );
 };
 
