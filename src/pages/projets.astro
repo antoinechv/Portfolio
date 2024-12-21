@@ -66,50 +66,35 @@ projets {
     <h1 class="font-truculenta font-black text-black text-6xl">
         Mes projets
     </h1>
-  <div class="flex flex-row flex-wrap gap-4 justify-center">
-    <!-- Bouton pour afficher tout -->
-    <button
-        data-type="all"
-        class="text-white bg-red text-sm font-medium px-4 py-2 rounded-lg font-truculenta"
+
+    <div
+            id="project-gallery"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-5"
     >
-      Tous
-    </button>
+        {data.projets.nodes
+            .filter(
+                (projetNode) =>
+                    projetNode.projets?.miniature?.node?.sourceUrl && projetNode.projets?.titre
+            )
+            .map((projetNode) => (
+                    <div
+                            class="project-card w-full h-full"
+                            data-tags={projetNode.projets.tags.nodes.map((tag) => tag.name).join(",")}
+                    >
+                        <ProjectCard
+                                key={projetNode.id}
+                                href={`/projets/${projetNode.id}`}
+                                image={projetNode.projets.miniature.node.sourceUrl}
+                                alt={projetNode.projets.miniature.node.altText}
+                                title={projetNode.projets.titre}
+                                description={projetNode.projets.description}
+                                tags={projetNode.projets.tags}
+                        />
+                    </div>
+            ))}
+    </div>
 
-    <!-- Boutons pour chaque type -->
-    {data.typesProjets.nodes.map((type) => (
-        <button
 
-            class="text-white bg-red text-sm font-medium px-4 py-2 rounded-lg font-truculenta"
-        >
-          {type.name}
-        </button>
-    ))}
-  </div>
-  <div
-      id="project-gallery"
-      class="flex flex-row flex-wrap gap-10 w-full items-stretch justify-center"
-  >
-    {data.projets.nodes
-        .filter(
-            (projetNode) =>
-                projetNode.projets?.miniature?.node?.sourceUrl && projetNode.projets?.titre
-        )
-        .map((projetNode) => (
-            <div
-                class="flex flex-col items-center"
-            >
-              <ProjectCard
-                  key={projetNode.id}
-                  href={`/projets/${projetNode.id}`}
-                  image={projetNode.projets.miniature.node.sourceUrl}
-                  alt={projetNode.projets.miniature.node.altText}
-                  title={projetNode.projets.titre}
-                  description={projetNode.projets.description}
-                  tags={projetNode.projets.tags}
-              />
-            </div>
-        ))}
-  </div>
 
 </div>
 </body>

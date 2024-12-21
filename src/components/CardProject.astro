@@ -4,29 +4,26 @@ import Button from "./JSX/Button";
 ---
 
 
-   <a  class="flex flex-col" href={href}> <div
-            class="flex gap-8 flex-col justify-center items-center w-80 font-truculenta bg-black p-5 rounded-lg "
+<a class="flex flex-col h-full w-full" href={href}>
+    <div
+            class="flex flex-col justify-center items-center w-full h-full font-truculenta bg-black p-5 rounded-lg gap-5"
     >
-
-
-        <img src={image} alt={alt} class="w-full h-48 object-cover"/>
-        <div class="flex gap-3 flex-col w-full  flex-grow">
-            <h3 class="text-light-cream text-2xl font-semibold mb-auto">{title}</h3>
-            <p class="text-light-cream text-base">{description}</p>
-            <div class="flex items-center gap-3">
-                {
-                    tags.nodes.map((tag) => (
-                            <span data-type={tag.id}
-                                  id={tag.id}
-                                  class="text-white bg-red text-xs font-medium px-2.5 py-1 rounded-lg font-truculenta"
-                            >
+        <img src={image} alt={alt} class="w-full h-48 object-cover" />
+        <div class="flex gap-3 flex-col w-full flex-grow">
+            <h3 class="text-light-cream text-2xl font-semibold ">{title}</h3>
+            <p class="text-light-cream text-base mb-auto">{description}</p>
+            <div class="flex items-center flex-wrap gap-3">
+                {tags.nodes.map((tag) => (
+                        <span
+                                data-type={tag.id}
+                                id={tag.id}
+                                class="text-white bg-red text-xs font-medium px-2.5 py-1 rounded-lg font-truculenta"
+                        >
             {tag.name}
           </span>
-                    ))
-                }
+                ))}
             </div>
         </div>
-
-
     </div>
-   </a>
+</a>
+

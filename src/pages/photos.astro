@@ -64,26 +64,10 @@ const {typesPhotos, photos} = data;
         </h1>
 
         <!-- Navigation for filtering by taxonomy -->
-        <div class="flex flex-row flex-wrap gap-4 justify-center">
-            <button
-                    data-type="all"
-                    class="text-white bg-red text-sm font-medium px-2.5 py-1 rounded-lg font-truculenta"
-            >
-                Tous
-            </button>
-            {typesPhotos.nodes.map((type) => (
-                    <button
-
-                            class="text-white bg-red text-sm font-medium px-2.5 py-1 rounded-lg font-truculenta"
-                    >
-                        {type.name}
-                    </button>
-            ))}
-        </div>
 
         <div
                 id="photo-gallery"
-                class="flex flex-row flex-wrap gap-10 w-full items-stretch justify-center"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-5"
         >
             {data.photos.nodes
                 .filter(
@@ -92,7 +76,8 @@ const {typesPhotos, photos} = data;
                 )
                 .map((photoNode) => (
                         <div
-                                class="flex flex-col items-center"
+                                class="project-card w-full h-full"
+                                data-tags={photoNode.photos.tags.nodes.map((tag) => tag.name).join(",")}
                         >
                             <ProjectCard
                                     key={photoNode.id}
@@ -104,9 +89,11 @@ const {typesPhotos, photos} = data;
                                     tags={photoNode.photos.tags}
                             />
                         </div>
+
                 ))}
         </div>
     </div>
+
 </main>
 
 

@@ -1,15 +1,15 @@
 ---
 import ProjectCard from "../components/CardProject.astro";
-import { wpquery } from "../graphql/wordPressQuery";
+import {wpquery} from "../graphql/wordPressQuery";
 import NavBar from "../components/JSX/NavBar";
 import Layout from "../Layout/Head.astro";
 import "../index.css";
-import { ViewTransitions } from 'astro:transitions';
+import {ViewTransitions} from 'astro:transitions';
 
 
 
 const data = await wpquery({
-  query: `
+    query: `
   {
    typesVideos {
     nodes {
@@ -45,52 +45,48 @@ const data = await wpquery({
 ---
 
 <html lang="fr">
-  <Layout title="PORTFOLIO" />
-  <body class="bg-light-cream">
-  <ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0" exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100" />
-    <header>
-      <NavBar client:load />
-    </header>
+<Layout title="PORTFOLIO"/>
+<body class="bg-light-cream">
+<ViewTransitions enter="transition-all duration-700 ease-in-out transform translate-x-full opacity-0"
+                 exit="transition-all duration-500 ease-in-out transform translate-x-0 opacity-100"/>
+<header>
+    <NavBar client:load/>
+</header>
 
-    <Layout title="PORTFOLIO" />
-    <div class=" py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
-      <h1 class="font-truculenta font-black text-black text-6xl">
+<Layout title="PORTFOLIO"/>
+<div class=" py-14 sm:px-8 sm:py-16 md:px-16 md:py-24 flex justify-center items-center flex-col gap-10 flex-wrap p-5">
+    <h1 class="font-truculenta font-black text-black text-6xl">
         Mes videos
-      </h1>
-      <div class="flex flex-row flex-wrap gap-4 justify-center">
-        <button  data-type="all"  class="text-white bg-red text-sm font-medium px-4 py-2 rounded-lg font-truculenta" >
-          Tous
-        </button>
-        {data.typesVideos.nodes.map((type) => (
-            <button
+    </h1>
 
-                class="text-white bg-red text-sm font-medium px-4 py-2 rounded-lg font-truculenta"
-            >
-              {type.name}
-            </button>
-        ))}
-      </div>
-      <div
-          id="video-gallery"
-        class="flex flex-row flex-wrap gap-10 w-full  items-stretch justify-center"
-      >
-      {data.videos.nodes
-          .filter(
-              (videoNode) =>
-                  videoNode.videos?.miniature?.node?.sourceUrl && videoNode.videos?.titre
-          )
-          .map((videoNode) => (
-              <ProjectCard
-                  key={videoNode.id}
-                  href={`/videos/${videoNode.id}`}
-                  image={videoNode.videos.miniature.node.sourceUrl}
-                  alt={videoNode.videos.miniature.node.altText}
-                  title={videoNode.videos.titre}
-                  description={videoNode.videos.description}
-                  tags={videoNode.videos.tags}
-              />
-          ))}
-      </div>
+
+    <div
+            id="video-gallery"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-5"
+    >
+        {data.videos.nodes
+            .filter(
+                (videoNode) =>
+                    videoNode.videos?.miniature?.node?.sourceUrl && videoNode.videos?.titre
+            )
+            .map((videoNode) => (
+                    <div
+                            class="project-card w-full h-full"
+                            data-tags={videoNode.videos.tags.nodes.map((tag) => tag.name).join(",")}
+                    >
+                        <ProjectCard
+                                key={videoNode.id}
+                                href={`/videos/${videoNode.id}`}
+                                image={videoNode.videos.miniature.node.sourceUrl}
+                                alt={videoNode.videos.miniature.node.altText}
+                                title={videoNode.videos.titre}
+                                description={videoNode.videos.description}
+                                tags={videoNode.videos.tags}
+                        />
+                    </div>
+            ))}
     </div>
-  </body>
+</div>
+
+</body>
 </html>

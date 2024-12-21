@@ -31,96 +31,103 @@ const data = await wpquery({
     query: `
     {
       projet(id: "${id}") {
-    id
+       id
     projets {
-        annee
-        description
-        descriptionProjet
-        titre
-        tags {
-          nodes {
-            id
-            name
-          }
+      annee
+      description
+      descriptionProjet
+      titre
+      tags {
+        nodes {
+          id
+          name
         }
-        miniature {
+      }
+      miniature {
+        node {
+          altText
+          sourceUrl
+        }
+      }
+      logiciel {
+        nodes {
+          id
+          name
+        }
+      }
+      gallerie {
+        photo {
           node {
             altText
             sourceUrl
           }
         }
-        logiciel {
-          nodes {
-            id
-            name
+        photo2 {
+          node {
+            altText
+            sourceUrl
+            uri
           }
         }
-        gallerie {
-          photo {
-            node {
-              altText
-              sourceUrl
-            }
+        photo3 {
+          node {
+            altText
+            sourceUrl
           }
-          photo2 {
-            node {
-              altText
-              sourceUrl
-              uri
-            }
+        }
+        photo_4 {
+          node {
+            altText
+            sourceUrl
           }
-          photo3 {
-            node {
-              altText
-              sourceUrl
-            }
+        }
+        photo_5 {
+          node {
+            altText
+            sourceUrl
           }
-          photo_4 {
-            node {
-              altText
-              sourceUrl
-            }
+        }
+        photo_6 {
+          node {
+            altText
+            sourceUrl
           }
-          photo_5 {
-            node {
-              altText
-              sourceUrl
-            }
+        }
+        photo_7 {
+          node {
+            altText
+            sourceUrl
           }
-          photo_6 {
-            node {
-              altText
-              sourceUrl
-            }
+        }
+        photo_8 {
+          node {
+            altText
+            sourceUrl
           }
-          photo_7 {
-            node {
-              altText
-              sourceUrl
-            }
+        }
+        photo_9 {
+          node {
+            altText
+            sourceUrl
           }
-          photo_8 {
-            node {
-              altText
-              sourceUrl
-            }
-          }
-          photo_9 {
-            node {
-              altText
-              sourceUrl
-            }
-          }
-          photo_10 {
-            node {
-              altText
-              sourceUrl
-            }
+        }
+        photo_10 {
+          node {
+            altText
+            sourceUrl
           }
         }
       }
+      miniatureWeb {
+        node {
+          altText
+          sourceUrl
+        }
+      }
+      pageWeb
     }
-    }
+  }
+}
   `,
 });
 
@@ -175,7 +182,7 @@ let galleryPhotos = Object.values({
         </div>
 
         <div class="flex md:flex-row flex-col-reverse gap-5 w-full  border-black  p-5">
-            <div class="flex flex-col gap-5 w-full  justify-between p-5 border-r-2 border-black">
+            <div class="flex flex-col gap-5 w-full  justify-between  border-r-2 border-black">
                 <div class="flex flex-col gap-5 w-full justify-center ">
                     <h2 class="font-truculenta font-black text-red text-3xl">
                         Description du projet
@@ -235,7 +242,7 @@ let galleryPhotos = Object.values({
                         />
                     </a>
             )}
-
+            {projet.galleryPhotos && (
             <div class="flex flex-col gap-2 w-full">
                 <h2 class="font-truculenta font-black text-black text-xl">Le projet </h2>
                 <div class="flex flex-col  w-full">
@@ -250,6 +257,7 @@ let galleryPhotos = Object.values({
                     ))}
                 </div>
             </div>
+            )}
         </div>
     </div>
 
