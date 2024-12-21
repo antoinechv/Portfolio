@@ -220,6 +220,7 @@ let galleryPhotos = Object.values({
     </div>
 
     <div class="wrapper mx-auto p-5 max-w-screen-lg">
+
         <div class="flex flex-col gap-2 w-full">
             {projet.figma && (
                     <h2 class="font-truculenta font-black text-black text-xl">Prototype Figma </h2>
@@ -242,9 +243,8 @@ let galleryPhotos = Object.values({
                         />
                     </a>
             )}
-            {projet.galleryPhotos && (
+
             <div class="flex flex-col gap-2 w-full">
-                <h2 class="font-truculenta font-black text-black text-xl">Le projet </h2>
                 <div class="flex flex-col  w-full">
                     {galleryPhotos.map((photo, index) => (
 
@@ -257,7 +257,7 @@ let galleryPhotos = Object.values({
                     ))}
                 </div>
             </div>
-            )}
+
         </div>
     </div>
 
